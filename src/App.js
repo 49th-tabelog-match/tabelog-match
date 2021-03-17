@@ -14,12 +14,14 @@ import Search from './components/Search'
 import SearchResult from './components/SearchResult'
 import Restaurant from './components/Restaurant'
 import UserInfo from './components/UserInfo'
+import Header from './components/Header'
 
 function App() {
   return (
     <>
       <Router>
         <Switch>
+          <Header />
           <Route exact path='/' component={Main} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/signup' component={SignUp} />
