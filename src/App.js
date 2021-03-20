@@ -19,9 +19,9 @@ import Header from './components/Header'
 function App() {
   return (
     <>
+      <Header />
       <Router>
         <Switch>
-          <Header />
           <Route exact path='/' component={Main} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/signup' component={SignUp} />
