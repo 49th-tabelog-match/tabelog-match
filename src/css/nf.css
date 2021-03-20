@@ -38,9 +38,8 @@
   position: fixed;
   top: 0;
   left: 100%;
-  width: 30%;
-  min-width: 250px;
-  height: 75vh;
+  width: 320px;
+  height: 82vh;
   transition: .6s;
   overflow-y: scroll;
 }
@@ -108,23 +107,34 @@
   right: 30px;
 }
 
-.user-profile-img__config {
+.user-profile-config {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }
+.user-profile-images {
+  display: flex;
+  position: relative;
+}
+.user-profile-img-and-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .user-profile-img {
-  height: 150px;
-  width: 150px;
-  background-color: #fff;
+  height: 200px;
+  width: 200px;
+  background-color: gainsboro;
   border-radius: 50%;
   overflow: hidden;
 }
 .user-profile-img .img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
   height: 100%;
-  transform: translateX(-25px);
 }
-.user-profile button {
+.user-profile .btn {
   height: 35px;
 }
 
