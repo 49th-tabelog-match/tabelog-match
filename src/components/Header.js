@@ -17,10 +17,6 @@ const Header = () => {
     // openMenuがtrueならmodalという文字列、falseなら空文字が入る(動的に変わるクラス名)
     const modal = openMenu ? 'modal' : '';
 
-
-
-
-
     return (
         <>
             <header className='header'>
@@ -54,6 +50,7 @@ const Header = () => {
                             <li><span className="under-line">お知らせ</span></li>
                             <li><span className="under-line">このサービスの使い方</span></li>
                             <li><span className="under-line">よくある質問</span></li>
+                            <li><span className="under-line">ログアウト</span></li>
                             <li><span className="under-line">利用規約</span></li>
                             <li><span className="under-line">ポリシー</span></li>
                         </ul>
