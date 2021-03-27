@@ -4,7 +4,7 @@ import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import { Button, makeStyles } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import { storage } from '../../firebase';
-import dummy from '../../img/dummy.jpeg'
+import dummy from '../../etc/img/dummy.jpeg'
 
 
 

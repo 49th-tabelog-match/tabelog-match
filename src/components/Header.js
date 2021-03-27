@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../img/tabelog.png'
+import logo from '../etc/img/tabelog.png'
 import { Squash as Hamburger } from 'hamburger-react'
 
 
