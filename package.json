@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/system": "^4.11.3",
@@ -10,9 +11,18 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "firebase": "^8.3.1",
+=======
+    "@react-google-maps/api": "^2.1.1",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
+>>>>>>> 09bf2c1bfe03c05894f59e5253bb560ebbeb495c
     "hamburger-react": "^2.4.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-geocode": "^0.2.3",
+    "react-geocoding": "^4.0.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "styled-components": "^5.2.1",
