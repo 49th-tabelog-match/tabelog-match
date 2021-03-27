@@ -3,7 +3,6 @@ import Header from '../Header';
 import FormDialog from '../Forms/FormDialog'
 import FavoriteShop from './FavoriteShop';
 import ImageArea from './ImageArea';
-import PrimaryButton from '../UIkit/PrimaryButton';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
