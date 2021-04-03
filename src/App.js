@@ -5,6 +5,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom'
+import { Reset } from 'styled-reset'
 
 import Login from './components/Login'
 import SignUp from './components/SignUp'
@@ -13,11 +14,12 @@ import Main from './components/Main'
 import Search from './components/Search'
 import SearchResult from './components/SearchResult'
 import Restaurant from './components/Restaurant'
-import UserInfo from './components/UserInfo'
+import UserInfo from './components//UserInfo/UserInfo'
 
 function App() {
   return (
     <>
+      <Reset />
       <Router>
         <Switch>
           <Route exact path='/' component={Main} />
