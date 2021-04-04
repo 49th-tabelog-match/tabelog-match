@@ -2,8 +2,7 @@ import React from 'react';
 
 const Address = ({ address, setAddress }) => {
 
-  const handleChangeAddress = (e) => {      // 選択したジャンルを収納
-    const uri = encodeURI(e.target.value);
+  const handleChangeAddress = (e) => {
     setAddress(e.target.value);
   }
 

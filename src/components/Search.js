@@ -16,7 +16,16 @@ export default function Search({history}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    history.push('/searchresult')
+    const uri = encodeURI(address);
+    const API_ENDPOINT = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&address=${uri}&genre=${selectGenre}&format=json`;
+    if (address === "" || selectGenre === "") {
+        alert(`ジャンルを選択してください\nまた、住所を入力してください`);
+    } else {
+        history.push({
+            pathname: '/searchresult',
+            state: {shopresult: API_ENDPOINT}
+        });
+    }
   }
 
   return (
