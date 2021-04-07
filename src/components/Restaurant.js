@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import Geocode from 'react-geocode'
+// import { db } from '../firebase/index'
 
 // styled-components
 const ShopImg = styled.img`
@@ -13,7 +14,7 @@ const ShopImg = styled.img`
     margin: 40px;
 `;
 
-const MoreImg = {
+const MapStyle = {
     height: "400px",
     width: "80%",
     margin: "40px auto",
@@ -45,6 +46,7 @@ const DetailItem = styled.li`
     color: #fff;
     border-radius: 40px;
     margin: 20px 10px 20px;
+    list-style: none;
 `;
 
 const Location = styled.section`
@@ -58,12 +60,12 @@ width: 300px;
 margin: 0 auto;
 background-color: #0099ff;
 text-align: center;
-padding: 5px 0;
 `;
 
 const GoodButtonParagraph = styled.p`
-font-size: 40px;
 color: #fff;
+font-weight: bold;
+font-size: 1.5rem;
 `;
 
 const Restaurant = () => {
@@ -77,7 +79,7 @@ const Restaurant = () => {
     };
 
     const [location, setLocation] = useState(center)
-    Geocode.setApiKey("API-KEY");
+    Geocode.setApiKey("AIzaSyCdH5JoO8LcZ6DlMlZz2E5hj5v0oFc4wNE");
     Geocode.setLanguage('ja');
     Geocode.setRegion('ja');
 
@@ -87,7 +89,6 @@ const Restaurant = () => {
         Geocode.fromAddress(value).then(
             (response) => {
                 const { lat, lng } = response.results[0].geometry.location;
-                console.log(lat, lng);
                 setLocation({ lat, lng });
             },
             (error) => {
@@ -97,10 +98,13 @@ const Restaurant = () => {
     }
 
 
-    //いいねの状態の切り替え
+    // いいねの状態の切り替え
     const handleClick = () => {
         good ? setGood(false) : setGood(true);
         console.log(good)
+        // if (good === true && value !== "") {
+        //     db.collection('good').add(value)
+        // }
     }
 
     return (
@@ -143,9 +147,9 @@ const Restaurant = () => {
             </section>
             <Location>
                 <h1>お店の場所</h1>
-                <LoadScript googleMapsApiKey='API-KEY'>
+                <LoadScript googleMapsApiKey='AIzaSyCdH5JoO8LcZ6DlMlZz2E5hj5v0oFc4wNE'>
                     <GoogleMap
-                        mapContainerStyle={MoreImg}
+                        mapContainerStyle={MapStyle}
                         center={location}
                         zoom={17}
                     ></GoogleMap>
