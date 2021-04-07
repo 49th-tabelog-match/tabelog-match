@@ -1,7 +1,8 @@
 //Login.js
 import React, { useState } from 'react'
-import { firebaseConfig } from '../firebase/config'
-import { AuthContext } from '../firebase/AuthService'
+// import { firebaseConfig } from '../firebase/config'
+import { auth } from '../firebase/index'
+// import { AuthProvider } from
 import { Redirect, Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { makeStyles } from '@material-ui/core/styles'
@@ -51,8 +52,8 @@ const Login = ({ history }) => {
 
   //とりあえずパスとメールだけで一旦作る
   const onSubmit = (e) => {
-    e.preventDefault()
-    firebaseConfig.auth().signInWithEmailAndPassword(email, password)
+    // e.preventDefault()
+    auth.signInWithEmailAndPassword(email, password)
       .then(() => {
         history.push("/")
       })
