@@ -2,12 +2,15 @@ import React from 'react';
 import Genre from "../etc/Genre";
 import Address from '../etc/Address';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router';
 
 
-export default function Search({ history }) {
+export default function Search() {
     const [genres, setGenres] = React.useState([]);
     const [selectGenre, setSelectGenre] = React.useState('');
     const [address, setAddress] = React.useState([]);
+
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
