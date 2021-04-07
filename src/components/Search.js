@@ -1,19 +1,12 @@
 import React from 'react';
 import Genre from "../etc/Genre";
-// import Prefecture from './Prefecture';
-// import City from './City';
 import Address from '../etc/Address';
-import Header from './Header';
 import Button from '@material-ui/core/Button';
 
 
 export default function Search({ history }) {
     const [genres, setGenres] = React.useState([]);
     const [selectGenre, setSelectGenre] = React.useState('');
-    // const [prefectures, setPrefectures] = React.useState([]);
-    // const [selectPrefecture, setSelectPrefecture] = React.useState('');
-    // const [cities, setCities] = React.useState([]);
-    // const [selectCity, setSelectCity] = React.useState('');
     const [address, setAddress] = React.useState([]);
 
     const handleSubmit = (e) => {
@@ -34,8 +27,6 @@ export default function Search({ history }) {
                 <div style={{backgroundColor: '#c0c0c0', padding: '40px 20px'}}>
                     <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column'}}>
                         <Genre genres={genres} setGenres={setGenres} selectGenre={selectGenre} setSelectGenre={setSelectGenre} />
-                        {/* <Prefecture prefectures={prefectures} setPrefectures={setPrefectures} selectPrefecture={selectPrefecture} setSelectPrefecture={setSelectPrefecture} />
-          <City cities={cities} setCities={setCities} selectCity={selectCity} setSelectCity={setSelectCity} selectPrefecture={selectPrefecture} /> */}
                         <Address address={address} setAddress={setAddress} />
                         <p style={{marginBottom: '20px', lineHeight: '20px'}}>※住所入力の際、都道府県・市町村・地域名ごとに半角スペース分、空けてください。<br /><br />(例) 大阪府 大阪市 中央区 難波千日前</p>
                         <Button variant="contained" type="submit" style={{fontSize: '16px', backgroundColor: '#222222', color: 'white', width: '100%'}}>この条件で探す</Button>
