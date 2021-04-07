@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 // import { firebaseConfig } from '../firebase/config'
 import { auth } from '../firebase/index'
 // import { AuthProvider } from
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect, Link, useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -43,12 +43,13 @@ const useStyles = makeStyles({
 
 })
 
-const Login = ({ history }) => {
+const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { register, handleSubmit, errors, getValues } = useForm()
 
   const classes = useStyles()
+  const history = useHistory()
 
   //とりあえずパスとメールだけで一旦作る
   const onSubmit = (e) => {

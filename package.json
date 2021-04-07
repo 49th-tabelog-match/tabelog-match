@@ -10,13 +10,6 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-<<<<<<< HEAD
-    "firebase": "^8.3.2",
-    "hamburger-react": "^2.4.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-hook-form": "^7.0.4",
-=======
     "axios": "^0.21.1",
     "axios-jsonp": "^1.0.4",
     "firebase": "^8.3.1",
@@ -25,7 +18,7 @@
     "react-dom": "^17.0.1",
     "react-geocode": "^0.2.3",
     "react-geocoding": "^4.0.5",
->>>>>>> main
+    "react-hook-form": "^7.0.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-slick": "^0.28.1",
