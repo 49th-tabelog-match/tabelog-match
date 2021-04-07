@@ -32,6 +32,9 @@
 .header-h2 {
     font-size: 16px;
     font-weight: bold;
+    @include sp {
+        display: none;
+    }
 }
 
 .nav-menu { 
@@ -43,6 +46,10 @@
     height: 82vh;
     transition: .6s;
     overflow-y: scroll;
+    @include sp {
+        width: 100%;
+        height: 100%;
+    }
     &-in {  
     transform: translateX(-100%);
     z-index: 2;
@@ -53,18 +60,35 @@
     margin-top: 100px;
     z-index: 2;
     list-style: none;
+    @include sp {
+        height: 70%;
+        justify-content: space-between;
+        max-width: 300px;
+        margin: 120px auto 0;
+    }
     
     & li {
         padding: 25px 0;
         border-bottom: #fff solid 1px;
+        @include sp {
+            padding: 0;
+            border: none;
+            font-size: 18px;
+        }
 
     }
     & li:hover {
         background-color:rgba(255,255,255,0.2);
         cursor: pointer;
+        @include sp {
+            background-color: transparent;
+        }
     }
     & li:first-child {
         border-top: #fff solid 1px;
+        @include sp {
+            border: none;
+        }
     }
     & li span {
         color:white;

@@ -3,8 +3,17 @@ import Header from '../Header';
 import FormDialog from '../Forms/FormDialog'
 import FavoriteShop from './FavoriteShop';
 import ImageArea from './ImageArea';
-import PrimaryButton from '../UIkit/PrimaryButton';
 import EditIcon from '@material-ui/icons/Edit';
+import { makeStyles } from '@material-ui/core';
+import Button from '@material-ui/core/Button'
+
+const useStyles = makeStyles({
+    'button': {
+        '@media screen and (max-width: 600px)': {
+            marginTop: '20px'
+        }
+    }
+})
 
 
 const UserInfo = () => {
@@ -24,6 +33,8 @@ const UserInfo = () => {
         setOpen(false);
     };
 
+    const classes = useStyles();
+
     return (
         <>
             <Header />
@@ -31,7 +42,7 @@ const UserInfo = () => {
             <div className='user-profile container'>
                 <div className='user-profile-config'>
                     <ImageArea />
-                    <PrimaryButton text={'プロフィールを編集'} onClick={handleClickOpen} icon={<EditIcon />} />
+                    <Button className={classes.button} onClick={handleClickOpen} endIcon={<EditIcon />} color={'primary'} variant={'contained'}>プロフィールを編集</Button>
                     {/* <button className='btn' onClick={handleClickOpen}>プロフィールを編集</button> */}
                 </div>
 
@@ -45,7 +56,7 @@ const UserInfo = () => {
 
                 <div className='user-info-wrap'>
                     <h2 className='user-info-title'>こんな感じでごはんが食べたい</h2>
-                    <p className="user-info-desc">このユーザーがどんなふうに一緒にごはんを食べたいのか分かります</p>
+                    <p className="user-info-desc user-info-desc-second">このユーザーがどんなふうに一緒にごはんを食べたいのか分かります</p>
                 </div>
 
                 <div className='user-info-wrap'>
