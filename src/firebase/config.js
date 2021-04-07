@@ -1,3 +1,4 @@
+
 export const firebaseConfig = {
     apiKey: "AIzaSyBarEh26zmpBnh2_oV0hClecBcYqiHLlWg",
     authDomain: "tabelog-match.firebaseapp.com",
