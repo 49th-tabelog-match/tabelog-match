@@ -1,4 +1,7 @@
 import React from 'react';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+
 
 const Address = ({ address, setAddress }) => {
 
@@ -7,12 +10,9 @@ const Address = ({ address, setAddress }) => {
   }
 
   return (
-    <div>
-      <label>
-        探したい店の住所を入力（アバウトでＯＫ）<br />
-        <input type='text' value={address} onChange={handleChangeAddress}/>
-      </label>
-    </div>
+    <FormControl required style={{width: '100%'}}>
+      <Input type='text' value={address} onChange={handleChangeAddress} placeholder='探したい店の住所を入力'  style={{marginBottom: '20px', backgroundColor: '#DDDDDD'}}/>
+    </FormControl>
   );
 };
 
