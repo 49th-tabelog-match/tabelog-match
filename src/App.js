@@ -1,6 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import { Reset } from 'styled-reset'
+
 
 import Router from './router/Router'
 import { AuthProvider } from './AuthProvider';
