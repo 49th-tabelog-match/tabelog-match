@@ -1,81 +1,47 @@
 import React from 'react';
-// import Button from '@material-ui/core/Button';
-// import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
+import Genre from "../etc/Genre";
+// import Prefecture from './Prefecture';
+// import City from './City';
+import Address from '../etc/Address';
+import Header from './Header';
+import Button from '@material-ui/core/Button';
 
-export default function Search() {
-  const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 300,
+
+export default function Search({ history }) {
+    const [genres, setGenres] = React.useState([]);
+    const [selectGenre, setSelectGenre] = React.useState('');
+    // const [prefectures, setPrefectures] = React.useState([]);
+    // const [selectPrefecture, setSelectPrefecture] = React.useState('');
+    // const [cities, setCities] = React.useState([]);
+    // const [selectCity, setSelectCity] = React.useState('');
+    const [address, setAddress] = React.useState([]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const uri = encodeURI(address); //入力した住所をURLエンコード
+        const API_ENDPOINT = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&address=${uri}&genre=${selectGenre}&order=4&count=25&format=jsonp`;
+        history.push({  //ボタンを押すと検索結果ページに移動し、検索結果を渡す
+            pathname: '/searchresult',
+            state: { shopresult: API_ENDPOINT }
+        });
     }
-  }));
-  const classes = useStyles();
-  const [prefecture, setPrefecture] = React.useState('');
-  const [city, setCity] = React.useState('');
-  const [detail, setDetail] = React.useState('');
 
-  const handleChangePrefecture = (event) => {
-    setPrefecture(event.target.value);
-  };
 
-  const handleChangeCity = (event) => {
-    setCity(event.target.value);
-  };
-
-  const handleChangeDetail = (event) => {
-    setDetail(event.target.value);
-  };
-
-  return (
-    <Box width="75%">
-      <h2>いきてぇお店を探そう</h2>
-      <div>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="prefecture-select-label">プルダウンで都道府県を選択</InputLabel>
-          <Select
-            labelId="prefecture-select-label"
-            id="prefecture-select"
-            value={prefecture}
-            onChange={handleChangePrefecture}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="city-select-label">プルダウンで市区町村を選択</InputLabel>
-          <Select
-            labelId="city-select-label"
-            id="city-select"
-            value={city}
-            onChange={handleChangeCity}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="detail-select-label">プルダウンで細かいエリアを選択</InputLabel>
-          <Select
-            labelId="detail-select-label"
-            id="detail-select"
-            value={detail}
-            onChange={handleChangeDetail}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-    </Box>
-  );
+    return (
+        <>
+            <div className='container'>
+                <h2 className='header-h2' style={{marginBottom: '40px'}}>いきてぇお店を探そう</h2>
+                <div style={{backgroundColor: '#c0c0c0', padding: '40px 20px'}}>
+                    <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column'}}>
+                        <Genre genres={genres} setGenres={setGenres} selectGenre={selectGenre} setSelectGenre={setSelectGenre} />
+                        {/* <Prefecture prefectures={prefectures} setPrefectures={setPrefectures} selectPrefecture={selectPrefecture} setSelectPrefecture={setSelectPrefecture} />
+          <City cities={cities} setCities={setCities} selectCity={selectCity} setSelectCity={setSelectCity} selectPrefecture={selectPrefecture} /> */}
+                        <Address address={address} setAddress={setAddress} />
+                        <p style={{marginBottom: '20px', lineHeight: '20px'}}>※住所入力の際、都道府県・市町村・地域名ごとに半角スペース分、空けてください。<br /><br />(例) 大阪府 大阪市 中央区 難波千日前</p>
+                        <Button variant="contained" type="submit" style={{fontSize: '16px', backgroundColor: '#222222', color: 'white', width: '100%'}}>この条件で探す</Button>
+                    </form>
+                </div>
+            </div>
+        </>
+    );
 }
