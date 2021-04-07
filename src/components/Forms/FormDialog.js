@@ -7,8 +7,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import TextInput from './TextInput';
 import { DialogContentText } from '@material-ui/core';
+import ImageAreaPreview from '../UserInfo/ImageAreaPreview';
+import { db, FirebaseTimestamp } from '../../firebase';
 
-const FormDialog = ({ open, handleClose, setSelfIntroduction }) => {
+const FormDialog = ({ open, handleClose, setSelfIntroduction, images, setImages }) => {
     // プロフィールを編集の自己紹介のフォームの値を管理
     const [description, setDescription] = useState('');
 
@@ -34,10 +36,18 @@ const FormDialog = ({ open, handleClose, setSelfIntroduction }) => {
         const result = window.confirm('変更内容を保存しますか？')
 
         if (result) {
+            db.collection('users').add({
+                id: images.id,
+                username: name,
+                userImage: images.path,
+                userDesc: description,
+                // timestamp: FirebaseTimestamp.now()
+            })
             setSelfIntroduction(description)
             handleClose();
         }
     }
+    console.log(images)
 
 
 
@@ -51,6 +61,8 @@ const FormDialog = ({ open, handleClose, setSelfIntroduction }) => {
             <DialogTitle id="alert-dialog-title">プロフィールを編集</DialogTitle>
 
             <DialogContent>
+                <ImageAreaPreview images={images} setImages={setImages} />
+
                 <TextInput
                     label={'名前(必須)'} multiline={false} rows={1}
                     value={name} type={'text'} onChange={inputName}
