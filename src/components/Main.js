@@ -1,66 +1,47 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import React, { useContext } from 'react';
+import { Button } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import { makeStyles } from '@material-ui/core/styles';
+import { AuthContext } from '../AuthProvider';
+import { useHistory } from 'react-router-dom';
 
-export default function Main() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+const useStyles = makeStyles(() => ({
+    'button': {
+        textAlign: 'right',
+        width: '200px'
+    }
+}))
+const Main = () => {
+    const classes = useStyles();
+    const history = useHistory();
+    console.log(history)
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    const { authUser, setAuthUser } = useContext(AuthContext)
+    console.log(authUser)
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  return (
-    <>
-      <Box width="75%">
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-        >
-          <h2>ロゴ</h2>
-          <h1>誰でもいいから一緒にこの店行ってほしい</h1>
-          <div>
-            <Button variant="contained" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-              マイメニュー
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>ユーザーページ</MenuItem>
-              <MenuItem onClick={handleClose}>検索ページ</MenuItem>
-              <MenuItem onClick={handleClose}>チャット一覧</MenuItem>
-              <MenuItem onClick={handleClose}>お知らせ</MenuItem>
-              <MenuItem onClick={handleClose}>このサービスの使い方</MenuItem>
-              <MenuItem onClick={handleClose}>よくある質問</MenuItem>
-              <MenuItem onClick={handleClose}>ログアウト</MenuItem>
-              <MenuItem onClick={handleClose}>利用規約</MenuItem>
-              <MenuItem onClick={handleClose}>ポリシー</MenuItem>
-              <MenuItem onClick={handleClose}>ログイン</MenuItem>
-            </Menu>
-          </div>
-        </Grid>
-        <h2>いきてぇお店を探そう</h2>
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-        >
-          <Button variant="contained" >詳しい条件で探す</Button>
-        </Grid>
-      </Box>
-    </>
-  );
+    return (
+        <>
+            <div className='main-container' >
+                <button onClick={() => setAuthUser(!authUser)} >auth control</button>
+                <div className='main-image'>
+                    <img src="https://source.unsplash.com/random" alt="" />
+                </div>
+                <div className='main-title-and-button-wrap' >
+                    <h2 className='main-title' >いきてぇお店を探そう</h2>
+                    <div>
+                        <Button
+                            className={classes.button}
+                            variant='contained'
+                            color='primary'
+                            startIcon={<SearchIcon />}
+                            onClick={() => history.push('/search')}
+                        >お店を検索
+                     </Button>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }
+
+export default Main;
