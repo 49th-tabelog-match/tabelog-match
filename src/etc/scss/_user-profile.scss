@@ -30,10 +30,25 @@
             height: 100%;
         }
     }
+    &-images-preview {
+        display: block;
+        text-align: right;
+    }
+    &-img-preview {
+        margin: auto;
+        border: #787878 solid 1px;
+        background-color: #fff;
+    }
 }
+
 
 .user-info-wrap {
     padding-top: 40px; 
+    &-first {
+        @include sp {
+            padding-top: 20px;
+        }
+    }
 }
 
 .user-info-title {
@@ -43,6 +58,10 @@
     @include sp {
         font-size: 16px;
         text-align: center;
+    }
+    &-first {
+        text-align: left;
+        margin: 0 0 15px 15px;
     }
 }
 
