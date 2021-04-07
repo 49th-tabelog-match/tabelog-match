@@ -79,7 +79,7 @@ const Restaurant = () => {
     };
 
     const [location, setLocation] = useState(center)
-    Geocode.setApiKey("AIzaSyCdH5JoO8LcZ6DlMlZz2E5hj5v0oFc4wNE");
+    Geocode.setApiKey("API-KEY");
     Geocode.setLanguage('ja');
     Geocode.setRegion('ja');
 
@@ -147,7 +147,7 @@ const Restaurant = () => {
             </section>
             <Location>
                 <h1>お店の場所</h1>
-                <LoadScript googleMapsApiKey='AIzaSyCdH5JoO8LcZ6DlMlZz2E5hj5v0oFc4wNE'>
+                <LoadScript googleMapsApiKey='API-KEY'>
                     <GoogleMap
                         mapContainerStyle={MapStyle}
                         center={location}
