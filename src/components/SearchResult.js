@@ -2,9 +2,11 @@ import React from 'react'
 import axios from 'axios';
 import jsonpAdapter from 'axios-jsonp';
 import Button from '@material-ui/core/Button';
+import { useLocation } from 'react-router';
 
-const SearchResult = (props) => {
-    const state = props.location.state.shopresult; //検索結果受け取り
+const SearchResult = () => {
+    const location = useLocation();
+    const state = location.state.shopresult; //検索結果受け取り
     const [results, setResults] = React.useState([]);
     React.useEffect(() => {
         axios.get(state, {
