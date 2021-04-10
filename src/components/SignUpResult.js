@@ -1,8 +1,9 @@
 //SignUpResult.js
-import React, { useState, useContext, useHistory, useEffect } from 'react'
-import { firebaseConfig } from '../firebase/config'
-import SignUp from './SignUp'
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import { auth, db } from '../firebase/index'
 import { makeStyles } from '@material-ui/core/styles'
+import { nanoid } from 'nanoid'
 
 const useStyles = makeStyles({
   h1: {
@@ -40,36 +41,38 @@ const useStyles = makeStyles({
 
 })
 
-const SignUpResult = (data) => {
-  // const history = useHistory()
-  const [name, setName] = useState('')
+const SignUpResult = () => {
+  const history = useHistory()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [userData, setUserData] = useState('')
 
   const classes = useStyles()
 
   useEffect(() => {
-    setName(data.location.state.username)
-    setEmail(data.location.state.email)
-    setPassword(data.location.state.password)
+    setEmail(history.location.state.email)
+    setPassword(history.location.state.password)
+    setUserData(history.location.state)
   },[])
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    firebaseConfig.auth().createUserWithEmailAndPassword(email, password)
-      .then(({ user }) => {
-        user.updateProfile({
-          displayName: name
-        })
-      })
+  async function authsubmit() {
+    auth.createUserWithEmailAndPassword(email, password)
       .catch(err => {
         console.log(err)
       })
+    setUserData(nanoid())
+    return userData
   }
 
-  const kakunin = (e) => {
+  async function dbsubmit() {
+    const setdata = await authsubmit()
+    db.collection('users').add(setdata)
+  }
+
+  const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(name, email, password)
+    dbsubmit()
+    history.push('/')
   }
 
   return (
@@ -77,19 +80,25 @@ const SignUpResult = (data) => {
       <h1 className={classes.h1}>確認画面</h1>
         <div>
           <h2 className={classes.h2}>ユーザー名</h2>
-        <p className={classes.h2}>{data.location.state.username}</p>
+          <p className={classes.h2}>{history.location.state.username}</p>
         </div>
         <div>
           <h2 className={classes.h2}>E-mail</h2>
-        <p className={classes.h2}>{data.location.state.email}</p>
+        <p className={classes.h2}>{history.location.state.email}</p>
         </div>
         <div>
-        <h2 className={classes.h2}>Password</h2>
-        <p className={classes.h2}>{data.location.state.password}</p>
+          <h2 className={classes.h2}>Password</h2>
+          <p className={classes.h2}>{history.location.state.password}</p>
+        </div>
+        <div>
+          <h2 className={classes.h2}>生年月日</h2>
+          <p className={classes.h2}>{history.location.state.birthday}</p>
+        </div>
+        <div>
+          <h2 className={classes.h2}>性別</h2>
+          <p className={classes.h2}>{history.location.state.gender}</p>
         </div>
       <button className={classes.button} onClick={handleSubmit}>合意して登録</button>
-      <button className={classes.button} onClick={kakunin}>ステート確認用</button>
-
       {/* <button onClick={history.push('./signup')}>前のページに戻る</button> */}
       </>
   )
