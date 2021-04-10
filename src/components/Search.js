@@ -17,7 +17,7 @@ export default function Search() {
         const uri = encodeURI(address); //入力した住所をURLエンコード
         const API_ENDPOINT = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&address=${uri}&genre=${selectGenre}&order=4&count=25&format=jsonp`;
         history.push({  //ボタンを押すと検索結果ページに移動し、検索結果を渡す
-            pathname: '/searchresult',
+            pathname: '/search/result',
             state: { shopresult: API_ENDPOINT }
         });
     }
