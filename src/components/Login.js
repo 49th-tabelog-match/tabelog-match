@@ -1,9 +1,7 @@
 //Login.js
 import React, { useState } from 'react'
-// import { firebaseConfig } from '../firebase/config'
 import { auth } from '../firebase/index'
-// import { AuthProvider } from
-import { Redirect, Link, useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -39,37 +37,37 @@ const useStyles = makeStyles({
     paddingTop: '20px',
     marginLeft: '85px',
     textAlign: 'center'
+  },
+  errorMessages: {
+    fontSize: '16px',
+    color: 'red'
   }
 
 })
 
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const { register, handleSubmit, errors, getValues } = useForm()
-
+  const { register, handleSubmit, formState: { errors }, getValues } = useForm()
   const classes = useStyles()
   const history = useHistory()
 
-  //とりあえずパスとメールだけで一旦作る
-  const onSubmit = (e) => {
-    // e.preventDefault()
-    auth.signInWithEmailAndPassword(email, password)
+  async function setdata() {
+    return getValues()
+    }
+
+  async function login() {
+    const userdata = await setdata()
+    auth.signInWithEmailAndPassword(userdata.email, userdata.password)
       .then(() => {
         history.push("/")
       })
       .catch(err => {
         console.log(err)
       })
-    }
-
-
-  const inputEmail = (e) => {
-    setEmail(e.target.value)
   }
 
-  const inputPassword = (e) => {
-    setPassword(e.target.value)
+  const handlelogin = e => {
+    // e.preventDefault()
+    login()
   }
 
   // const user = useContext(AuthContext)
@@ -80,17 +78,22 @@ const Login = () => {
   return (
     <>
       <h1 className={classes.h1}>ログイン</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(handlelogin)}>
         <div>
           <h2 className={classes.h2}>E-mail</h2>
           <input
             className={classes.form}
             type='email'
-            id='email'
-            name='email'
             placeholder='Email'
-            onChange={inputEmail}
-            />
+            {...register("email", {
+              required: 'メールアドレスを入力してください',
+              pattern: {
+                value: /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/,
+                message: '正しいメールアドレスを入力してください'
+              }
+            })}
+          />
+          {errors.email && <span className={classes.errorMessages}>※{ errors.email.message }</span>}
         </div>
         <div>
           <h2 className={classes.h2}>Password</h2>
@@ -98,10 +101,16 @@ const Login = () => {
             className={classes.form}
             type='password'
             id='password'
-            name='password'
-            placeholder='Password'
-            onChange={inputPassword}
+            placeholder='password'
+            {...register("password", {
+              required: 'パスワードを入力してください。',
+              pattern: {
+              value: /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i,
+              message:'パスワードは英字1文字以上、数字1文字以上を含む8文字以上の半角英数字を入力してください'
+              }
+            })}
           />
+          {errors.password && <span className={classes.errorMessages}>※{ errors.password.message }</span>}
         </div>
         <button className={classes.button} type='submit'>ログインする</button>
         <Link className={classes.link} to="/signup">新規登録へ</Link>
