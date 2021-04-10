@@ -8,7 +8,11 @@ import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles(() => ({
     'button': {
         textAlign: 'right',
-        width: '200px'
+        width: '200px',
+        backgroundColor: 'orange',
+        '&:hover': {
+            backgroundColor: 'orange',
+        }
     }
 }))
 const Main = () => {
@@ -22,21 +26,20 @@ const Main = () => {
     return (
         <>
             <div className='main-container' >
-                <button onClick={() => setAuthUser(!authUser)} >auth control</button>
                 <div className='main-image'>
-                    <img src="https://source.unsplash.com/random" alt="" />
-                </div>
-                <div className='main-title-and-button-wrap' >
-                    <h2 className='main-title' >いきてぇお店を探そう</h2>
-                    <div>
-                        <Button
-                            className={classes.button}
-                            variant='contained'
-                            color='primary'
-                            startIcon={<SearchIcon />}
-                            onClick={() => history.push('/search')}
-                        >お店を検索
-                     </Button>
+                    <button onClick={() => setAuthUser(!authUser)} >auth control</button>
+                    <div className='main-title-and-button-wrap' >
+                        <h2 className='main-title' >いきてぇお店を探そう</h2>
+                        <div>
+                            <Button
+                                className={classes.button}
+                                variant='contained'
+                                color='primary'
+                                startIcon={<SearchIcon />}
+                                onClick={() => history.push('/search')}
+                            >お店を検索
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
