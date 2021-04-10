@@ -1,11 +1,11 @@
 @mixin pc {
-    @media screen and (min-width: 960px) {
+    @media screen and (min-width: 991px) {
         @content;
     }
 }
 
 @mixin tab {
-    @media screen and (max-width: 959px) {
+    @media screen and (max-width: 990px) {
         @content;
     }
 }

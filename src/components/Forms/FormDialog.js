@@ -37,9 +37,9 @@ const FormDialog = ({ open, handleClose, setSelfIntroduction, images, setImages 
 
         if (result) {
             db.collection('users').add({
-                id: images.id,
+                id: images.id || 1,
                 username: name,
-                userImage: images.path,
+                userImage: images.path || '',
                 userDesc: description,
                 // timestamp: FirebaseTimestamp.now()
             })
