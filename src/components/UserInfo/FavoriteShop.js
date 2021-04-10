@@ -14,7 +14,7 @@ const FavoriteShop = () => {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        autoplay: true,
+        // autoplay: true,
         autoplaySpeed: 5000
     };
     return (
@@ -24,7 +24,7 @@ const FavoriteShop = () => {
                     <div className="favorite-shop-content">
                         <p className="favorite-shop-number">No.1</p>
                         <div className="shop-thumbnail">
-                            <img src={reactLogo} alt="" />
+                            <img src='https://source.unsplash.com/random' alt="" />
                         </div>
                         <p className='favorite-shop-name'>店名</p>
                         <p className='Aggregate'>34.5万またいきてぇ</p>
@@ -42,7 +42,10 @@ const FavoriteShop = () => {
                     <div className="favorite-shop-content">
                         <p className="favorite-shop-number">No.3</p>
                         <div className="shop-thumbnail">
-                            <img src={reactLogo} alt="" />
+                            <div className="non-image-text">
+                                <p>またいきてぇをした<br />お店がありません</p>
+                            </div>
+                            {/* <img src={reactLogo} alt="" /> */}
                         </div>
                         <p className='favorite-shop-name'>店名</p>
                         <p className='Aggregate'>7.5万またいきてぇ</p>
@@ -56,10 +59,12 @@ const FavoriteShop = () => {
                         <div className="favorite-shop-content">
                             <p className="favorite-shop-number">No.1</p>
                             <div className="shop-thumbnail">
-                                <img src={reactLogo} alt="" />
+                                <img src='https://source.unsplash.com/random' alt="" />
                             </div>
-                            <p className='favorite-shop-name'>店名</p>
-                            <p className='Aggregate'>34.5万またいきてぇ</p>
+                            <div style={{ width: '200px', margin: 'auto' }}>
+                                <p className='favorite-shop-name'>店名</p>
+                                <p className='Aggregate'>34.5万またいきてぇ</p>
+                            </div>
                         </div>
 
                         <div className="favorite-shop-content">
@@ -67,8 +72,10 @@ const FavoriteShop = () => {
                             <div className="shop-thumbnail">
                                 <img src={sharinganLogo} alt="" />
                             </div>
-                            <p className='favorite-shop-name'>店名</p>
-                            <p className='Aggregate'>24.5万またいきてぇ</p>
+                            <div style={{ width: '200px', margin: 'auto' }}>
+                                <p className='favorite-shop-name'>店名</p>
+                                <p className='Aggregate'>24.5万またいきてぇ</p>
+                            </div>
                         </div>
 
                         <div className="favorite-shop-content">
@@ -76,8 +83,10 @@ const FavoriteShop = () => {
                             <div className="shop-thumbnail">
                                 <img src={reactLogo} alt="" />
                             </div>
-                            <p className='favorite-shop-name'>店名</p>
-                            <p className='Aggregate'>7.5万またいきてぇ</p>
+                            <div style={{ width: '200px', margin: 'auto' }}>
+                                <p className='favorite-shop-name'>店名</p>
+                                <p className='Aggregate'>7.5万またいきてぇ</p>
+                            </div>
                         </div>
                     </Slider>
                 </div>
