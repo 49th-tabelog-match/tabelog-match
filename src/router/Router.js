@@ -23,7 +23,7 @@ const Router = () => {
                     </Header>
                 </Route>
 
-                <Route exact path='/restaurant' >
+                <Route exact path='/restaurant:id' component={Restaurant}>
                     <Header>
                         <Restaurant />
                     </Header>

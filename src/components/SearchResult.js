@@ -6,8 +6,8 @@ import { useHistory, useLocation } from 'react-router';
 import {db} from '../firebase/index';
 
 const SearchResult = () => {
-    const location = useLocation();
-    const state = location.state.shopresult; //検索結果受け取り
+    const location = useLocation();                    //location使用
+    const state = location.state.shopresult;           //検索結果受け取り
     const [results, setResults] = React.useState([]);
     React.useEffect(() => {
         axios.get(state, {
@@ -20,18 +20,18 @@ const SearchResult = () => {
         });
     }, [])
 
-    const history = useHistory();
+    const history = useHistory();   //history使用
     
-    const shopresults = results.map((result, index) => {
+    const shopresults = results.map((result, index) => {  //検索結果を加工しそれぞれ表示
+        const result_id = result.id;
         const handleClick = () => {
             history.push({
-                pathname: `/restaurant/${result_id}`,
+                pathname: `/restaurant/:${result_id}`
             })
         }
-        db.collection('rest').doc(`${result.id}`).set({
-            id: result.id
+        db.collection('rest').doc(`${result_id}`).set({  //firestoreに検索結果のIDを収納
+            id: result_id
         });
-        const result_id = result.id;
         return (
             <div style={{ display: 'flex', backgroundColor: '#c0c0c0', marginBottom: '20px' }} key={index} onClick={handleClick}>
                 <div>
