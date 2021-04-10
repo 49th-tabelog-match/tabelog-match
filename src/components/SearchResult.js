@@ -2,7 +2,8 @@ import React from 'react'
 import axios from 'axios';
 import jsonpAdapter from 'axios-jsonp';
 import Button from '@material-ui/core/Button';
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
+import {db} from '../firebase/index';
 
 const SearchResult = () => {
     const location = useLocation();
@@ -19,22 +20,35 @@ const SearchResult = () => {
         });
     }, [])
 
-    const shopresults = results.map((result, index) => (
-        <div style={{ display: 'flex', backgroundColor: '#c0c0c0', marginBottom: '20px' }} key={index}>
-            <div>
-                <img src={result.photo.pc.m} alt="" />
-            </div>
-            <div>
-                <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>{result.name}</h1>
+    const history = useHistory();
+    
+    const shopresults = results.map((result, index) => {
+        const handleClick = () => {
+            history.push({
+                pathname: `/restaurant/${result_id}`,
+            })
+        }
+        db.collection('rest').doc(`${result.id}`).set({
+            id: result.id
+        });
+        const result_id = result.id;
+        return (
+            <div style={{ display: 'flex', backgroundColor: '#c0c0c0', marginBottom: '20px' }} key={index} onClick={handleClick}>
                 <div>
-                    <h2>住所：{result.address}</h2>
-                    <h2>平均予算：{result.budget.average}</h2>
+                    <img src={result.photo.pc.m} alt="" />
                 </div>
-                <p>{result.catch}</p>
-                <Button variant='contained' type='submit' style={{ fontSize: '16px', backgroundColor: '#222222', color: 'white', width: '25%' }}>選択</Button>
+                <div>
+                    <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>{result.name}</h1>
+                    <div>
+                        <h2>住所：{result.address}</h2>
+                        <h2>平均予算：{result.budget.average}</h2>
+                    </div>
+                    <p>{result.catch}</p>
+                    <Button variant='contained' type='submit' style={{ fontSize: '16px', backgroundColor: '#222222', color: 'white', width: '25%' }}>選択</Button>
+                </div>
             </div>
-        </div>
-    ));
+        )
+    });
 
     return (
         <div className='container'>
