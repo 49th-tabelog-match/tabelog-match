@@ -1,9 +1,8 @@
 import React from 'react'
 import axios from 'axios';
 import jsonpAdapter from 'axios-jsonp';
-import Button from '@material-ui/core/Button';
 import { useHistory, useLocation } from 'react-router';
-import {db} from '../firebase/index';
+import { db } from '../firebase/index';
 
 const SearchResult = () => {
     const location = useLocation();                    //location使用
@@ -19,9 +18,7 @@ const SearchResult = () => {
             console.log(error);
         });
     }, [])
-
     const history = useHistory();   //history使用
-    
     const shopresults = results.map((result, index) => {  //検索結果を加工しそれぞれ表示
         const result_id = result.id;
         const handleClick = () => {
@@ -33,23 +30,26 @@ const SearchResult = () => {
             id: result_id
         });
         return (
-            <div style={{ display: 'flex', backgroundColor: '#c0c0c0', marginBottom: '20px' }} key={index} onClick={handleClick}>
-                <div>
-                    <img src={result.photo.pc.m} alt="" />
+            <div style={{ display: 'flex', backgroundColor: '#c0c0c0', marginBottom: '20px', padding: '20px', cursor: 'pointer' }} key={index} onClick={handleClick}>
+                <div style={{ marginRight: '20px' }}>
+                    <img src={result.photo.pc.l} alt="" />
                 </div>
                 <div>
-                    <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>{result.name}</h1>
+                    <h1 style={{ fontSize: '30px', fontWeight: 'bold', marginBottom: '10px' }}>{result.name}</h1>
                     <div>
-                        <h2>住所：{result.address}</h2>
+                        <h2 style={{ marginBottom: '5px' }}>住所：{result.address}</h2>
                         <h2>平均予算：{result.budget.average}</h2>
+                        <br />
                     </div>
-                    <p>{result.catch}</p>
-                    <Button variant='contained' type='submit' style={{ fontSize: '16px', backgroundColor: '#222222', color: 'white', width: '25%' }}>選択</Button>
+                    <div>
+                        <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>お店紹介</h2>
+                        <br />
+                        <p>{result.catch}</p>
+                    </div>
                 </div>
             </div>
         )
     });
-
     return (
         <div className='container'>
             <h2 className='header-h2' style={{ fontSize: '25px', marginBottom: '10px' }}>いきてぇお店ランキング</h2>
