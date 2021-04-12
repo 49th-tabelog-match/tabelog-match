@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,8 +9,9 @@ import TextInput from './TextInput';
 import { DialogContentText } from '@material-ui/core';
 import ImageAreaPreview from '../UserInfo/ImageAreaPreview';
 import { db, FirebaseTimestamp } from '../../firebase';
+import { AuthContext } from '../../AuthProvider';
 
-const FormDialog = ({ open, handleClose, setSelfIntroduction, images, setImages }) => {
+const FormDialog = ({ open, handleClose, setSelfIntroduction, images, setImages, setUsers }) => {
     // プロフィールを編集の自己紹介のフォームの値を管理
     const [description, setDescription] = useState('');
 
@@ -30,24 +31,31 @@ const FormDialog = ({ open, handleClose, setSelfIntroduction, images, setImages 
         setDescription(e.target.value)
     }
 
+    const { authUser, uid } = useContext(AuthContext);
+    // console.log(uid)
+
     // 変更ボタンをクリックした時にアラートを出し、OKならselfIntroductionの値を更新
     // selfIntroductionは実際に自己紹介を画面上に表示するためのステート
     const submitForm = () => {
         const result = window.confirm('変更内容を保存しますか？')
 
         if (result) {
-            db.collection('users').add({
+            db.collection('test').doc(uid).set({
                 id: images.id || 1,
+                uid: uid || 1,
                 username: name,
                 userImage: images.path || '',
                 userDesc: description,
-                // timestamp: FirebaseTimestamp.now()
+                timestamp: FirebaseTimestamp.now()
             })
+
             setSelfIntroduction(description)
             handleClose();
         }
     }
-    console.log(images)
+
+    // console.log(images)
+
 
 
 

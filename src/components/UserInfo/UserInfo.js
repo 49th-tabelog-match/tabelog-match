@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FormDialog from '../Forms/FormDialog'
 import FavoriteShop from './FavoriteShop';
 import ImageArea from './ImageArea';
@@ -6,6 +6,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
 import { AuthContext } from '../../AuthProvider';
+import { auth, db } from '../../firebase';
+import { TimerSharp } from '@material-ui/icons';
 
 const useStyles = makeStyles({
     'button': {
@@ -16,6 +18,10 @@ const useStyles = makeStyles({
 })
 
 const UserInfo = () => {
+    const [users, setUsers] = useState([]);
+    console.log(users)
+
+
     // プロフィール編集用のモーダルの開閉を管理するstate
     const [open, setOpen] = useState(false);
 
@@ -37,10 +43,43 @@ const UserInfo = () => {
 
     const classes = useStyles();
 
+
+
+
+
+
     const { authUser } = useContext(AuthContext)
-    console.log(authUser)
 
     const disabled = authUser ? false : true;
+
+    const uid = authUser && authUser.uid
+
+    console.log(uid)
+
+    useEffect(() => {
+        console.log('useEffect#', uid)
+        db.collection('test')
+            .onSnapshot((snapshot) => {
+
+                const users = snapshot.docs.map(doc => {
+                    // uidを取得
+                    const uid = doc.data().uid
+                    console.log(uid)
+
+                    if (uid === authUser.uid !== undefined) {
+                        return {
+                            ...doc.data()
+                        }
+                    }
+                })
+
+                setUsers(users)
+                console.log(users)
+            })
+    }, [])
+
+
+
 
     return (
         <>
@@ -54,7 +93,7 @@ const UserInfo = () => {
                 </div>
 
                 <div className='user-info-wrap'>
-                    <h2 className="user-info-title user-info-title-first ">ユーザーネーム</h2>
+                    <h2 className="user-info-title user-info-title-first ">{users[0] && users[0].username}</h2>
                     {/* <p className='user-info-desc'>自己紹介</p> */}
                     {/* <p style={{ marginTop: '7px', lineHeight: '1.65', wordWrap: 'break-word' }}>
                         {selfIntroduction}
@@ -97,6 +136,7 @@ const UserInfo = () => {
                 setSelfIntroduction={setSelfIntroduction}
                 images={images}
                 setImages={setImages}
+                setUsers={setUsers}
             />
         </>
     )
