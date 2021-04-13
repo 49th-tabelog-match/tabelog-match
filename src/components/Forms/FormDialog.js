@@ -31,8 +31,9 @@ const FormDialog = ({ open, handleClose, setSelfIntroduction, images, setImages,
         setDescription(e.target.value)
     }
 
-    const { authUser, uid } = useContext(AuthContext);
-    // console.log(uid)
+    const { authUser } = useContext(AuthContext);
+    const uid = authUser && authUser.uid
+    console.log(uid)
 
     // 変更ボタンをクリックした時にアラートを出し、OKならselfIntroductionの値を更新
     // selfIntroductionは実際に自己紹介を画面上に表示するためのステート
@@ -52,6 +53,19 @@ const FormDialog = ({ open, handleClose, setSelfIntroduction, images, setImages,
             setSelfIntroduction(description)
             handleClose();
         }
+        // db.collection('test').where('uid', '==', uid)
+        //     .onSnapshot((snapshot) => {
+
+        //         const getUsers = snapshot.docs.map(doc => {
+        //             return {
+        //                 ...doc.data()
+        //             }
+
+        //         })
+
+        //         setUsers(getUsers)
+        //         console.log(getUsers)
+        //     })
     }
 
     // console.log(images)

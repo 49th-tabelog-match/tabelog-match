@@ -22,6 +22,8 @@ const UserInfo = () => {
     console.log(users)
 
 
+
+
     // プロフィール編集用のモーダルの開閉を管理するstate
     const [open, setOpen] = useState(false);
 
@@ -56,27 +58,63 @@ const UserInfo = () => {
 
     console.log(uid)
 
+    // const user = authUser && users?.filter((user) => {
+    //     return user.uid === authUser.uid
+    // })
+
+    console.log(users)
+
+    // const getFirestore = () => {
+    //     db.collection('test').get()
+    //         .then(snapshot => {
+    //             const users = snapshot.docs.map(doc => {
+    //                 const uid = doc.data().uid
+    //                 if (uid === authUser.uid !== undefined) {
+    //                     return {
+    //                         ...doc.data()
+    //                     }
+    //                 }
+    //             })
+    //             setUsers(users)
+    //             console.log(users)
+    //         })
+    // }
+
+
+
+
+
     useEffect(() => {
         console.log('useEffect#', uid)
-        db.collection('test')
-            .onSnapshot((snapshot) => {
+        // db.collection('test')
+        //     .onSnapshot((snapshot) => {
 
-                const users = snapshot.docs.map(doc => {
-                    // uidを取得
-                    const uid = doc.data().uid
-                    console.log(uid)
+        //         const getUsers = snapshot.docs.map(doc => {
+        //             // uidを取得
+        //             const uid = doc.data().uid
+        //             console.log(uid)
+        //             console.log(authUser.uid)
 
-                    if (uid === authUser.uid !== undefined) {
-                        return {
-                            ...doc.data()
-                        }
+        //             if (authUser !== undefined && authUser.uid === uid) {
+        //                 return {
+        //                     ...doc.data()
+        //                 }
+        //             }
+        //         })
+        //         setUsers(getUsers)
+        //     })
+
+        db.collection('test').where('uid', '==', uid)
+            .onSnapshot(snapshot => {
+                const getUsers = snapshot.docs.map(doc => {
+                    return {
+                        ...doc.data()
                     }
                 })
-
-                setUsers(users)
-                console.log(users)
+                setUsers(getUsers)
             })
-    }, [])
+
+    }, [authUser])
 
 
 
@@ -85,7 +123,7 @@ const UserInfo = () => {
         <>
             <div className='user-profile container'>
                 <div className='user-profile-config'>
-                    <ImageArea images={images} />
+                    <ImageArea images={users[0] && users[0].userImage} />
                     <div>
 
                         <Button className={classes.button} onClick={handleClickOpen} endIcon={<EditIcon />} color={'primary'} variant={'contained'} disabled={disabled} >プロフィールを編集</Button>
@@ -98,7 +136,7 @@ const UserInfo = () => {
                     {/* <p style={{ marginTop: '7px', lineHeight: '1.65', wordWrap: 'break-word' }}>
                         {selfIntroduction}
                     </p> */}
-                    <TextField variant='outlined' fullWidth={true} multiline={true} value={selfIntroduction} rows={5} InputProps={{ readOnly: true }} placeholder='自己紹介' />
+                    <TextField variant='outlined' fullWidth={true} multiline={true} value={users[0] && users[0].userDesc || ''} rows={5} InputProps={{ readOnly: true }} placeholder='自己紹介' />
                 </div>
 
                 <div className='user-info-wrap'>
