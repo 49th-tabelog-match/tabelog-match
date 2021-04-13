@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext } from 'react'
 import axios from 'axios';
 import jsonpAdapter from 'axios-jsonp';
 import { useHistory, useLocation } from 'react-router';
@@ -7,7 +7,9 @@ import { db } from '../firebase/index';
 const SearchResult = () => {
     const location = useLocation();                    //location使用
     const state = location.state.shopresult;           //検索結果受け取り
+
     const [results, setResults] = React.useState([]);
+
     React.useEffect(() => {
         axios.get(state, {
             'adapter': jsonpAdapter,
