@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { createContext } from 'react'
 import axios from 'axios';
 import jsonpAdapter from 'axios-jsonp';
 import Button from '@material-ui/core/Button';
-import { useLocation } from 'react-router';
+import { useLocation, useHistory } from 'react-router';
 
 const SearchResult = () => {
     const location = useLocation();
+    const history = useHistory();
     const state = location.state.shopresult; //検索結果受け取り
     const [results, setResults] = React.useState([]);
+
     React.useEffect(() => {
         axios.get(state, {
             'adapter': jsonpAdapter,
@@ -31,7 +33,12 @@ const SearchResult = () => {
                     <h2>平均予算：{result.budget.average}</h2>
                 </div>
                 <p>{result.catch}</p>
-                <Button variant='contained' type='submit' style={{ fontSize: '16px', backgroundColor: '#222222', color: 'white', width: '25%' }}>選択</Button>
+                <Button variant='contained' type='submit' style={{ fontSize: '16px', backgroundColor: '#222222', color: 'white', width: '25%' }} onClick={() => {
+                    history.push({
+                        pathname: '/restaurant',
+                        state: { shopInfo: result }
+                    });
+                }}>選択</Button>
             </div>
         </div>
     ));
