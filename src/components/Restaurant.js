@@ -126,21 +126,14 @@ const Restaurant = () => {
                         <InfoList>平均予算　<Span>{state.budget.name}</Span></InfoList>
                     </ul>
                 </div>
+                <GoodButton onClick={handleClick}>
+                    {
+                        good ?
+                            <GoodButtonParagraph>行きてえ済</GoodButtonParagraph> : <GoodButtonParagraph>行きてえ</GoodButtonParagraph>
+                    }
+                </GoodButton>
             </Wrapper>
-            <GoodButton onClick={handleClick}>
-                {
-                    good ?
-                        <GoodButtonParagraph>行きてえ済</GoodButtonParagraph> : <GoodButtonParagraph>行きてえ</GoodButtonParagraph>
-                }
-            </GoodButton>
-            <section>
-                <Detail>
-                    <DetailItem>a</DetailItem>
-                    <DetailItem>a</DetailItem>
-                    <DetailItem>a</DetailItem>
-                    <DetailItem>a</DetailItem>
-                </Detail>
-            </section>
+
             <Location>
                 <h1 style={{ fontWeight: 'bold' }}>お店の場所</h1>
                 <LoadScript googleMapsApiKey='AIzaSyB26m7lkERDazaDC824vGcSXp-FXfFZqGM'>
