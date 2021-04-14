@@ -25,7 +25,7 @@ const SearchResult = () => {
         const result_id = result.id;
         const handleClick = () => {
             history.push({
-                pathname: `/restaurant/:${result_id}`
+                pathname: `/restaurant/${result_id}`
             })
         }
         db.collection('rest').doc(`${result_id}`).set({  //firestoreに検索結果のIDを収納
