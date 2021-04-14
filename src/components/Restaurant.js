@@ -92,7 +92,6 @@ const Restaurant = () => {
     }]);
     //パスからお店のIDを取得
     const { id } = useParams();
-    const shopId = id.replace(/:/g, "");
 
     //firebase.auth()からユーザーのプロフィール(ここではID)を取得
     let user = auth.currentUser;
@@ -116,7 +115,7 @@ const Restaurant = () => {
                 })
                 console.log(getUsers);
             })
-        axios.get(`http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&id=${shopId}&order=4&format=jsonp`, {
+        axios.get(`http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&id=${id}&order=4&format=jsonp`, {
             'adapter': jsonpAdapter,
         }).then(res => {
             console.log(res.data.results.shop);
@@ -153,7 +152,7 @@ const Restaurant = () => {
     // いいねの状態の切り替え
     const handleClick = () => {
         if (good === false) {
-            db.collection('rest').doc(`${shopId}`)
+            db.collection('rest').doc(`${id}`)
                 .collection('good').doc('user_good').set({
                     user_id: uid
                 });
@@ -195,14 +194,14 @@ const Restaurant = () => {
                     ></GoogleMap>
                 </LoadScript>
             </Location>
-            {/* <CommentSection>
+            <CommentSection>
                 <h1 style={{ fontWeight: 'bold' }}>お店へのコメント</h1>
                 <CommentForm>
                     <input></input>
                     <textarea></textarea>
                     <Button type='submit'>送信</Button>
                 </CommentForm>
-            </CommentSection> */}
+            </CommentSection>
         </>
     )
 }
