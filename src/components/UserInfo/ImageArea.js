@@ -1,9 +1,8 @@
 import React from 'react';
-import dummy from '../../etc/img/dummy.jpeg'
+import dummy from '../../etc/img/default-icon.png'
 
 
 const ImageArea = ({ images }) => {
-    console.log(images)
 
     return (
         <div className="user-profile-images" >

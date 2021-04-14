@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,10 +8,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextInput from './TextInput';
 import { DialogContentText } from '@material-ui/core';
 import ImageAreaPreview from '../UserInfo/ImageAreaPreview';
-import { db, FirebaseTimestamp } from '../../firebase';
+import { db } from '../../firebase';
 import { AuthContext } from '../../AuthProvider';
 
-const FormDialog = ({ open, handleClose, setSelfIntroduction, images, setImages, setUsers }) => {
+const FormDialog = ({ open, handleClose, images, setImages, docId }) => {
     // プロフィールを編集の自己紹介のフォームの値を管理
     const [description, setDescription] = useState('');
 
@@ -33,45 +33,28 @@ const FormDialog = ({ open, handleClose, setSelfIntroduction, images, setImages,
 
     const { authUser } = useContext(AuthContext);
     const uid = authUser && authUser.uid
-    console.log(uid)
 
-    // 変更ボタンをクリックした時にアラートを出し、OKならselfIntroductionの値を更新
-    // selfIntroductionは実際に自己紹介を画面上に表示するためのステート
+    // 変更ボタンをクリックした時にアラートを出し、OKならfirestoreにデーターを送信
     const submitForm = () => {
         const result = window.confirm('変更内容を保存しますか？')
 
         if (result) {
-            db.collection('test').doc(uid).set({
+            db.collection('users').doc(docId).set({
                 id: images.id || 1,
-                uid: uid || 1,
+                authId: uid,
                 username: name,
                 userImage: images.path || '',
                 userDesc: description,
-                timestamp: FirebaseTimestamp.now()
-            })
+            }, { merge: true })
 
-            setSelfIntroduction(description)
+            setName('');
+            setDescription('');
+            setImages('');
+
             handleClose();
         }
-        // db.collection('test').where('uid', '==', uid)
-        //     .onSnapshot((snapshot) => {
 
-        //         const getUsers = snapshot.docs.map(doc => {
-        //             return {
-        //                 ...doc.data()
-        //             }
-
-        //         })
-
-        //         setUsers(getUsers)
-        //         console.log(getUsers)
-        //     })
     }
-
-    // console.log(images)
-
-
-
 
     return (
         <Dialog
