@@ -1,11 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import Geocode from 'react-geocode'
 import Button from '@material-ui/core/Button';
-import { useLocation } from 'react-router';
-
+import { useParams } from 'react-router';
+import axios from 'axios';
+import jsonpAdapter from 'axios-jsonp';
+import { db, auth } from '../firebase/index';
+import { AuthContext } from '../AuthProvider';
 
 // styled-components
 const ShopImg = styled.img`
@@ -33,25 +36,12 @@ const InfoList = styled.li`
     margin-top: 25px;
 `;
 
-const Detail = styled.ul`
-    display: flex;
-    margin: 0 auto;
-    padding: 0 10% 0;
-`;
-
-const DetailItem = styled.li`
-    height: 40px;
-    width: 20%;
-    font-size: 40px;
-    text-align: center;
-    background-color: #0099ff;
-    color: #fff;
-    border-radius: 40px;
-    margin: 20px 10px 20px;
-    list-style: none;
-`;
-
 const Location = styled.section`
+    width: 80%;
+    margin: 0 auto;
+`;
+
+const CommentSection = styled.section`
     width: 80%;
     margin: 0 auto;
 `;
@@ -74,26 +64,67 @@ const Span = styled.span`
     font-weight: bold;
 `;
 
-const Restaurant = () => {
-    const location = useLocation();
-    const state = location.state.shopInfo;
-    console.log(state);
-    // いいね(行きてえ)済みかどうかの確認
-    const [good, setGood] = useState(false);
+const CommentForm = styled.form`
+    width: 100%;
+    margin: 0 auto;
+    background-color: #c0c0c0;
+    display: flex;
+    flex-direction: column;
+`;
+//ここまでがスタイル
 
-    // 緯度・経度を変更
-    const center = {
-        lat: 35.69575,
-        lng: 139.77521
+const Restaurant = () => {
+    //useEffectからお店情報をstateで受け取る
+    const [shopResult, setShopResult] = useState([{
+        address: '',
+        photo: {
+            pc: {
+                m: ''
+            }
+        },
+        name: '',
+        access: '',
+        genre: '',
+        open: '',
+        budget: {
+            name: ''
+        }
+    }]);
+    //パスからお店のIDを取得
+    const { id } = useParams();
+    const shopId = id.replace(/:/g, "");
+
+    //firebase.auth()からユーザーのプロフィール(ここではID)を取得
+    let user = auth.currentUser;
+    let uid;
+
+    if (user !== null) {
+        uid = user.uid
     };
 
-    const [place, setPlace] = useState(center)
-    Geocode.setApiKey("AIzaSyB26m7lkERDazaDC824vGcSXp-FXfFZqGM");
-    Geocode.setLanguage('ja');
-    Geocode.setRegion('ja');
+    const { authUser } = useContext(AuthContext);
+    const email = authUser && authUser.email;
 
     useEffect(() => {
-        Geocode.fromAddress(state.address).then(
+        db.collection('users').where('email', '==', email)
+            .onSnapshot(snapshot => {
+                const getUsers = snapshot.docs.map(doc => {
+                    return {
+                        ...doc.data(),
+                        docId: doc.id
+                    }
+                })
+                console.log(getUsers);
+            })
+        axios.get(`http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&id=${shopId}&order=4&format=jsonp`, {
+            'adapter': jsonpAdapter,
+        }).then(res => {
+            console.log(res.data.results.shop);
+            setShopResult(res.data.results.shop);
+        }).catch(error => {
+            console.log(error);
+        });
+        Geocode.fromAddress(shopResult[0].address).then(
             (response) => {
                 const { lat, lng } = response.results[0].geometry.location;
                 setPlace({ lat, lng });
@@ -102,28 +133,48 @@ const Restaurant = () => {
                 console.log(error);
             }
         );
-        console.log(state.photo.pc.m);
-    }, []);
 
+    }, []);
+    // 緯度・経度を変更
+    const center = {
+        lat: 35.69575,
+        lng: 139.77521
+    };
+
+    const [place, setPlace] = useState(center);
+
+    Geocode.setApiKey("AIzaSyCRGWITzHnk-iquHDOpWpKu1lNmVoMWSKY");
+    Geocode.setLanguage('ja');
+    Geocode.setRegion('ja');
+
+    // いいね(行きてえ)済みかどうかの確認
+    const [good, setGood] = useState(false);
 
     // いいねの状態の切り替え
     const handleClick = () => {
         if (good === false) {
+            db.collection('rest').doc(`${shopId}`)
+                .collection('good').doc('user_good').set({
+                    user_id: uid
+                });
             setGood(true);
         }
     };
 
+    //コメントのタイトルと文章をstateに渡す
+
     return (
         <>
             <Wrapper>
-                <ShopImg src={state.photo.pc.m}></ShopImg>
+                <ShopImg src={shopResult[0].photo.pc.m}></ShopImg>
                 <div>
                     <ul>
-                        <InfoList>店名　<Span>{state.name}</Span></InfoList>
-                        <InfoList>アクセス　<Span>{state.access}</Span></InfoList>
-                        <InfoList>ジャンル　<Span>{state.genre.name}</Span></InfoList>
-                        <InfoList>営業時間　<Span>{state.open}</Span></InfoList>
-                        <InfoList>平均予算　<Span>{state.budget.name}</Span></InfoList>
+                        <InfoList>店名　<Span>{shopResult[0].name}</Span></InfoList>
+                        <InfoList>アクセス　<Span>{shopResult[0].access}</Span></InfoList>
+                        <InfoList>ジャンル　<Span>{shopResult[0].genre.name}</Span></InfoList>
+                        <InfoList>営業時間　<Span>{shopResult[0].open}</Span></InfoList>
+                        <InfoList>平均予算　<Span>{shopResult[0].budget.name}</Span></InfoList>
+                        <InfoList>いいね数　<Span>0</Span></InfoList>
                     </ul>
                 </div>
                 <GoodButton onClick={handleClick}>
@@ -136,7 +187,7 @@ const Restaurant = () => {
 
             <Location>
                 <h1 style={{ fontWeight: 'bold' }}>お店の場所</h1>
-                <LoadScript googleMapsApiKey='AIzaSyB26m7lkERDazaDC824vGcSXp-FXfFZqGM'>
+                <LoadScript googleMapsApiKey='AIzaSyCRGWITzHnk-iquHDOpWpKu1lNmVoMWSKY'>
                     <GoogleMap
                         mapContainerStyle={MapStyle}
                         center={place}
@@ -144,8 +195,17 @@ const Restaurant = () => {
                     ></GoogleMap>
                 </LoadScript>
             </Location>
+            {/* <CommentSection>
+                <h1 style={{ fontWeight: 'bold' }}>お店へのコメント</h1>
+                <CommentForm>
+                    <input></input>
+                    <textarea></textarea>
+                    <Button type='submit'>送信</Button>
+                </CommentForm>
+            </CommentSection> */}
         </>
     )
 }
+
 
 export default Restaurant

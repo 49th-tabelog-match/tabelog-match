@@ -23,7 +23,7 @@ const Router = () => {
                     </Header>
                 </Route>
 
-                <Route path='/restaurant:id'>
+                <Route path='/restaurant/:id'>
                     <Header>
                         <Restaurant />
                     </Header>

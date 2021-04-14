@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React from 'react'
 import axios from 'axios';
 import jsonpAdapter from 'axios-jsonp';
 import { useHistory, useLocation } from 'react-router';
