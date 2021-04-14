@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import Geocode from 'react-geocode'
-// import { db } from '../firebase/index'
+import Button from '@material-ui/core/Button';
+import { useLocation } from 'react-router';
+
 
 // styled-components
 const ShopImg = styled.img`
@@ -23,8 +25,8 @@ const MapStyle = {
 
 const Wrapper = styled.section`
     display: flex;
-    padding: 0 6% 0;
     margin-bottom: 20px;
+    background-color: #c0c0c0;
 `;
 
 const InfoList = styled.li`
@@ -54,21 +56,28 @@ const Location = styled.section`
     margin: 0 auto;
 `;
 
-const GoodTab = styled.div`
+const GoodButton = styled(Button)`
 height: 50px;
 width: 300px;
 margin: 0 auto;
 background-color: #0099ff;
-text-align: center;
+float: right;
 `;
 
 const GoodButtonParagraph = styled.p`
 color: #fff;
 font-weight: bold;
-font-size: 1.5rem;
+font-size: 100%;
+`;
+
+const Span = styled.span`
+    font-weight: bold;
 `;
 
 const Restaurant = () => {
+    const location = useLocation();
+    const state = location.state.shopInfo;
+    console.log(state);
     // いいね(行きてえ)済みかどうかの確認
     const [good, setGood] = useState(false);
 
@@ -78,79 +87,59 @@ const Restaurant = () => {
         lng: 139.77521
     };
 
-    const [location, setLocation] = useState(center)
-    Geocode.setApiKey("API-KEY");
+    const [place, setPlace] = useState(center)
+    Geocode.setApiKey("AIzaSyB26m7lkERDazaDC824vGcSXp-FXfFZqGM");
     Geocode.setLanguage('ja');
     Geocode.setRegion('ja');
 
-    //とりあえず検索機能で試す
-    const [value, setValue] = useState('')
-    const handleResearch = (value) => {
-        Geocode.fromAddress(value).then(
+    useEffect(() => {
+        Geocode.fromAddress(state.address).then(
             (response) => {
                 const { lat, lng } = response.results[0].geometry.location;
-                setLocation({ lat, lng });
+                setPlace({ lat, lng });
             },
             (error) => {
-                console.error(error);
+                console.log(error);
             }
         );
-    }
+        console.log(state.photo.pc.m);
+    }, []);
 
 
     // いいねの状態の切り替え
     const handleClick = () => {
-        good ? setGood(false) : setGood(true);
-        console.log(good)
-        // if (good === true && value !== "") {
-        //     db.collection('good').add(value)
-        // }
-    }
+        if (good === false) {
+            setGood(true);
+        }
+    };
 
     return (
         <>
-            <section>
-                <input type='text'
-                    onChange={e => {
-                        console.log(e)
-                        setValue(e.target.value)
-                    }}
-                />
-                <button onSubmit={handleResearch(value)}>検索</button>
-            </section>
             <Wrapper>
-                <ShopImg url=""></ShopImg>
+                <ShopImg src={state.photo.pc.m}></ShopImg>
                 <div>
                     <ul>
-                        <InfoList>店名<span></span></InfoList>
-                        <InfoList>エリア<span></span></InfoList>
-                        <InfoList>ジャンル<span></span></InfoList>
-                        <InfoList>営業時間<span></span></InfoList>
-                        <InfoList>定休日<span></span></InfoList>
-                        <InfoList>平均予算<span></span></InfoList>
+                        <InfoList>店名　<Span>{state.name}</Span></InfoList>
+                        <InfoList>アクセス　<Span>{state.access}</Span></InfoList>
+                        <InfoList>ジャンル　<Span>{state.genre.name}</Span></InfoList>
+                        <InfoList>営業時間　<Span>{state.open}</Span></InfoList>
+                        <InfoList>平均予算　<Span>{state.budget.name}</Span></InfoList>
                     </ul>
                 </div>
+                <GoodButton onClick={handleClick}>
+                    {
+                        good ?
+                            <GoodButtonParagraph>行きてえ済</GoodButtonParagraph> : <GoodButtonParagraph>行きてえ</GoodButtonParagraph>
+                    }
+                </GoodButton>
             </Wrapper>
-            <GoodTab onClick={handleClick}>
-                {
-                    good ?
-                        <GoodButtonParagraph>行きてえ済</GoodButtonParagraph> : <GoodButtonParagraph>行きてえ</GoodButtonParagraph>
-                }
-            </GoodTab>
-            <section>
-                <Detail>
-                    <DetailItem>a</DetailItem>
-                    <DetailItem>a</DetailItem>
-                    <DetailItem>a</DetailItem>
-                    <DetailItem>a</DetailItem>
-                </Detail>
-            </section>
+
             <Location>
-                <h1>お店の場所</h1>
-                <LoadScript googleMapsApiKey='API-KEY'>
+                <h1 style={{ fontWeight: 'bold' }}>お店の場所</h1>
+                <LoadScript googleMapsApiKey='AIzaSyB26m7lkERDazaDC824vGcSXp-FXfFZqGM'>
                     <GoogleMap
                         mapContainerStyle={MapStyle}
-                        center={location}
+                        center={place}
                         zoom={17}
                     ></GoogleMap>
                 </LoadScript>
