@@ -59,15 +59,6 @@ const SignUp = () => {
     history.push({ pathname: './signup/result', state: getValues() })
   }
 
-//必要そうな登録内容
-  //★とりあえず実装するやつ
-  //ユーザー名（あとから変更可能）
-  //email（あとから変更可能）
-  //password（あとから変更可能）
-
-  //★あとから実装するやつ
-  //性別
-  //住んでるエリア（あとから変更可能）
   return (
     <>
       <h1 className={classes.h1}>新規会員登録</h1>
