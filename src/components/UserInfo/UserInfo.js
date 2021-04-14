@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FormDialog from '../Forms/FormDialog'
 import FavoriteShop from './FavoriteShop';
 import ImageArea from './ImageArea';
@@ -6,6 +6,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
 import { AuthContext } from '../../AuthProvider';
+import { db } from '../../firebase';
 
 const useStyles = makeStyles({
     'button': {
@@ -16,11 +17,11 @@ const useStyles = makeStyles({
 })
 
 const UserInfo = () => {
+    // firestoreから取得したuser情報を入れるステート
+    const [users, setUsers] = useState([]);
+
     // プロフィール編集用のモーダルの開閉を管理するstate
     const [open, setOpen] = useState(false);
-
-    // 画面上にある自己紹介の部分に表示させる文字列を代入するステート
-    const [selfIntroduction, setSelfIntroduction] = useState('')
 
     // フォトアイコンクリック→画像選択後に画像情報が入ってくるステート
     const [images, setImages] = useState('');
@@ -38,28 +39,58 @@ const UserInfo = () => {
     const classes = useStyles();
 
     const { authUser } = useContext(AuthContext)
-    console.log(authUser)
 
     const disabled = authUser ? false : true;
+
+    const email = authUser && authUser.email;
+
+    useEffect(() => {
+
+        db.collection('users').where('email', '==', email)
+            .onSnapshot(snapshot => {
+                const getUsers = snapshot.docs.map(doc => {
+                    return {
+                        ...doc.data(),
+                        docId: doc.id
+                    }
+                })
+                setUsers(getUsers)
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authUser])
+
+
+
 
     return (
         <>
             <div className='user-profile container'>
+
                 <div className='user-profile-config'>
-                    <ImageArea images={images} />
+                    <ImageArea images={users[0] && users[0].userImage} />
                     <div>
 
-                        <Button className={classes.button} onClick={handleClickOpen} endIcon={<EditIcon />} color={'primary'} variant={'contained'} disabled={disabled} >プロフィールを編集</Button>
+                        <Button className={classes.button}
+                            onClick={handleClickOpen}
+                            endIcon={<EditIcon />}
+                            color={'primary'}
+                            variant={'contained'}
+                            disabled={disabled}
+                        >
+                            プロフィールを編集
+                        </Button>
                     </div>
                 </div>
 
                 <div className='user-info-wrap'>
-                    <h2 className="user-info-title user-info-title-first ">ユーザーネーム</h2>
-                    {/* <p className='user-info-desc'>自己紹介</p> */}
-                    {/* <p style={{ marginTop: '7px', lineHeight: '1.65', wordWrap: 'break-word' }}>
-                        {selfIntroduction}
-                    </p> */}
-                    <TextField variant='outlined' fullWidth={true} multiline={true} value={selfIntroduction} rows={5} InputProps={{ readOnly: true }} placeholder='自己紹介' />
+                    <h2 className="user-info-title user-info-title-first ">{users[0] && users[0].username}</h2>
+                    <TextField
+                        variant='outlined'
+                        fullWidth={true}
+                        multiline={true}
+                        value={users[0] ? (users[0].userDesc) : ('')}
+                        rows={5} InputProps={{ readOnly: true }}
+                        placeholder='自己紹介' />
                 </div>
 
                 <div className='user-info-wrap'>
@@ -94,9 +125,10 @@ const UserInfo = () => {
             <FormDialog
                 open={open}
                 handleClose={handleClose}
-                setSelfIntroduction={setSelfIntroduction}
                 images={images}
                 setImages={setImages}
+                setUsers={setUsers}
+                docId={users[0] && users[0].docId}
             />
         </>
     )

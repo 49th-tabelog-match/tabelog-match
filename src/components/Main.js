@@ -20,14 +20,13 @@ const Main = () => {
     const history = useHistory();
     console.log(history)
 
-    const { authUser, setAuthUser } = useContext(AuthContext)
+    const { authUser } = useContext(AuthContext)
     console.log(authUser)
 
     return (
         <>
             <div className='main-container' >
                 <div className='main-image'>
-                    <button onClick={() => setAuthUser(!authUser)} >auth control</button>
                     <div className='main-title-and-button-wrap' >
                         <h2 className='main-title' >いきてぇお店を探そう</h2>
                         <div>

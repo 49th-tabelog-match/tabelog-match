@@ -37,7 +37,7 @@ const Header = ({ children }) => {
     const history = useHistory();
 
     const { authUser } = useContext(AuthContext)
-    console.log(authUser)
+    // console.log(authUser)
 
     const classes = useStyles();
 

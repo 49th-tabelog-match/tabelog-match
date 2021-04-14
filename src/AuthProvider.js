@@ -4,11 +4,15 @@ import { auth } from "./firebase"
 const AuthContext = createContext()
 const AuthProvider = ({ children }) => {
     const [authUser, setAuthUser] = useState(false)
+    console.log(authUser)
 
     useEffect(() => {
-        auth.onAuthStateChanged(user => {
-            setAuthUser(user)
-        })
+        const getAuthUser = async () => {
+            await auth.onAuthStateChanged(user => {
+                setAuthUser(user)
+            })
+        }
+        getAuthUser()
     }, [])
 
     return (
@@ -20,5 +24,5 @@ const AuthProvider = ({ children }) => {
 
 export {
     AuthContext,
-    AuthProvider
+    AuthProvider,
 }

@@ -214,9 +214,9 @@
 .user-profile-img {
   height: 200px;
   width: 200px;
-  background-color: gainsboro;
   border-radius: 50%;
   overflow: hidden;
+  border: 1px solid #bbb;
 }
 .user-profile-img .img {
   object-fit: cover;
