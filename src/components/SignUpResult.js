@@ -41,26 +41,48 @@ const useStyles = makeStyles({
 
 })
 
+  const initialState = [
+    {
+      username: '',
+      email: '',
+      userImage: '',
+      userDesc: '未記入',
+      birthday: '',
+      gender: '無回答'
+    }
+  ]
+
 const SignUpResult = () => {
   const history = useHistory()
+  const classes = useStyles()
+
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [userData, setUserData] = useState('')
 
-  const classes = useStyles()
 
   useEffect(() => {
     setEmail(history.location.state.email)
     setPassword(history.location.state.password)
-    setUserData(history.location.state)
-  },[])
+    setUserData(
+      // history.location.state
+      {
+        id: nanoid(),
+        username: history.location.state.username,
+        email: history.location.state.email,
+        birthday: history.location.state.birthday,
+        gender: history.location.state.gender
+      }
+    )
+  }, [])
+
 
   async function authsubmit() {
     auth.createUserWithEmailAndPassword(email, password)
       .catch(err => {
         console.log(err)
       })
-    setUserData(nanoid())
     return userData
   }
 
@@ -98,7 +120,11 @@ const SignUpResult = () => {
           <h2 className={classes.h2}>性別</h2>
           <p className={classes.h2}>{history.location.state.gender}</p>
         </div>
-      <button className={classes.button} onClick={handleSubmit}>合意して登録</button>
+      <button className={classes.button} onClick={handleSubmit}>登録</button>
+      {/* <button className={classes.button} onClick={e => {
+        e.preventDefault()
+        console.log(userData)
+      }}>確認用</button> */}
       {/* <button onClick={history.push('./signup')}>前のページに戻る</button> */}
       </>
   )
