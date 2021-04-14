@@ -77,8 +77,6 @@ const ImageAreaPreview = ({ images, setImages }) => {
         }
     }, [setImages])
 
-    console.log({ images });
-
     return (
         <div className="user-profile-images-preview" >
             <div className='user-profile-img user-profile-img-preview'>
