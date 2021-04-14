@@ -40,8 +40,6 @@ const FormDialog = ({ open, handleClose, images, setImages, docId }) => {
 
         if (result) {
             db.collection('users').doc(docId).set({
-                id: images.id || 1,
-                authId: uid,
                 username: name,
                 userImage: images.path || '',
                 userDesc: description,

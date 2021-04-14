@@ -42,11 +42,11 @@ const UserInfo = () => {
 
     const disabled = authUser ? false : true;
 
-    const uid = authUser && authUser.uid
+    const email = authUser && authUser.email;
 
     useEffect(() => {
 
-        db.collection('users').where('authId', '==', uid)
+        db.collection('users').where('email', '==', email)
             .onSnapshot(snapshot => {
                 const getUsers = snapshot.docs.map(doc => {
                     return {
