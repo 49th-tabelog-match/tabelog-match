@@ -121,10 +121,10 @@ const SignUpResult = () => {
           <p className={classes.h2}>{history.location.state.gender}</p>
         </div>
       <button className={classes.button} onClick={handleSubmit}>登録</button>
-      <button className={classes.button} onClick={e => {
+      {/* <button className={classes.button} onClick={e => {
         e.preventDefault()
         console.log(userData)
-      }}>確認用</button>
+      }}>確認用</button> */}
       {/* <button onClick={history.push('./signup')}>前のページに戻る</button> */}
       </>
   )
