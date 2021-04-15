@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useState, useEffect, useContext } from 'react'
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import Geocode from 'react-geocode'
 import Button from '@material-ui/core/Button';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import jsonpAdapter from 'axios-jsonp';
-import { db, auth } from '../firebase/index';
+import { db } from '../firebase/index';
 import { AuthContext } from '../AuthProvider';
 
 // styled-components
@@ -65,8 +65,7 @@ const Span = styled.span`
 `;
 
 const CommentForm = styled.form`
-    width: 100%;
-    margin: 0 auto;
+    margin: 0 auto 100px;
     background-color: #c0c0c0;
     display: flex;
     flex-direction: column;
@@ -75,7 +74,13 @@ const CommentForm = styled.form`
 
 const Restaurant = () => {
     //ユーザー情報を受け取るstate
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState([{
+        birthday: "",
+        email: "",
+        gender: "",
+        id: "",
+        username: ""
+    }]);
     //useEffectからお店情報をstateで受け取る
     const [shopResult, setShopResult] = useState([{
         address: '',
@@ -92,6 +97,13 @@ const Restaurant = () => {
             name: ''
         }
     }]);
+
+    //いいねの数をカウントするためのstate
+    const [counter, setCounter] = useState([]);
+
+    //コメントのタイトルと文章をstateに渡す
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
 
     //パスからお店のIDを取得
     const { id } = useParams();
@@ -112,28 +124,32 @@ const Restaurant = () => {
                 console.log(getUsers);
                 setUser(getUsers);
             });
+        db.collection('rest').doc(id).collection('good').onSnapshot(snap => {
+            const goodCount = snap.docs.map(doc => {
+                return doc.data;
+            })
+            setCounter(goodCount);
+        })
         axios.get(`http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&id=${id}&order=4&format=jsonp`, {
             'adapter': jsonpAdapter,
         }).then(res => {
-            console.log(res.data.results.shop);
             setShopResult(res.data.results.shop);
-        }).catch(error => {
-            console.log(error);
+            Geocode.fromAddress(res.data.results.shop[0].address).then(
+                (response) => {
+                    const { lat, lng } = response.results[0].geometry.location;
+                    setPlace({ lat, lng });
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
         });
-        Geocode.fromAddress(shopResult[0].address).then(
-            (response) => {
-                const { lat, lng } = response.results[0].geometry.location;
-                setPlace({ lat, lng });
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
     }, []);
+
     // 緯度・経度を変更
     const center = {
-        lat: 35.69575,
-        lng: 139.77521
+        lat: 35.62982,
+        lng: 139.794242
     };
 
     const [place, setPlace] = useState(center);
@@ -149,20 +165,36 @@ const Restaurant = () => {
     const handleClick = () => {
         if (good === false) {
             console.log(`${user[0].id},${id}`);
-            // db.collection('rest').doc(`${id}`)
-            //     .collection('good').doc(`${user[0].id}`).set({
-            //         user_id: user[0].id
-            //     });
-            // db.collection('users').doc(`${user[0].id}`)
-            //     .collection('good').doc(`${id}`).set({
-            //         rest_id: id,
-            //         timestamp: new Date()
-            //     })
+            db.collection('rest').doc(`${id}`)
+                .collection('good').doc(`${user[0].id}`).set({
+                    user_id: user[0].id
+                });
+            db.collection('users').doc(user[0].docId)
+                .collection('good').doc(`${id}`).set({
+                    rest_id: id,
+                    timestamp: new Date()
+                })
             setGood(true);
+        } else {
+            setGood(false);
         }
     };
 
-    //コメントのタイトルと文章をstateに渡す
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        db.collection('rest').doc(`${id}`).collection('comments').set({
+            title: title,
+            content: content,
+            time: new Date(),
+            user_id: user[0].id
+        });
+        db.collection('user').doc(`${user[0].id}`).collection('comments').set({
+            title: title,
+            content: content,
+            time: new Date(),
+            rest_id: id
+        });
+    }
 
     return (
         <>
@@ -170,39 +202,37 @@ const Restaurant = () => {
                 <ShopImg src={shopResult[0].photo.pc.m}></ShopImg>
                 <div>
                     <ul>
-                        <InfoList>店名　<Span>{shopResult[0].name}</Span></InfoList>
+                        <InfoList>店名　　　<Span>{shopResult[0].name}</Span></InfoList>
                         <InfoList>アクセス　<Span>{shopResult[0].access}</Span></InfoList>
                         <InfoList>ジャンル　<Span>{shopResult[0].genre.name}</Span></InfoList>
                         <InfoList>営業時間　<Span>{shopResult[0].open}</Span></InfoList>
                         <InfoList>平均予算　<Span>{shopResult[0].budget.name}</Span></InfoList>
-                        <InfoList>いいね数　<Span>0</Span></InfoList>
+                        <InfoList>行きてえ　<Span>{counter.length}</Span></InfoList>
                     </ul>
+                    <GoodButton onClick={handleClick}>
+                        {
+                            good ?
+                                <GoodButtonParagraph>行きてえ済</GoodButtonParagraph> : <GoodButtonParagraph>行きてえ</GoodButtonParagraph>
+                        }
+                    </GoodButton>
                 </div>
-                <GoodButton onClick={handleClick}>
-                    {
-                        good ?
-                            <GoodButtonParagraph>行きてえ済</GoodButtonParagraph> : <GoodButtonParagraph>行きてえ</GoodButtonParagraph>
-                    }
-                </GoodButton>
             </Wrapper>
 
             <Location>
                 <h1 style={{ fontWeight: 'bold' }}>お店の場所</h1>
                 <LoadScript googleMapsApiKey='AIzaSyCRGWITzHnk-iquHDOpWpKu1lNmVoMWSKY'>
-                    <GoogleMap
-                        mapContainerStyle={MapStyle}
-                        center={place}
-                        zoom={17}
-                    ></GoogleMap>
+                    <GoogleMap mapContainerStyle={MapStyle} center={place} zoom={17}>
+                        <Marker position={place}></Marker>
+                    </GoogleMap>
                 </LoadScript>
             </Location>
 
             <CommentSection>
                 <h1 style={{ fontWeight: 'bold' }}>お店へのコメント</h1>
-                <CommentForm>
-                    <input></input>
-                    <textarea></textarea>
-                    <Button type='submit'>送信</Button>
+                <CommentForm onSubimit={handleSubmit}>
+                    <input type='text' placeholder='タイトル' style={{ width: '20%', margin: '5px auto' }} onChange={e => setTitle(e.target.value)}></input>
+                    <textarea type='text' placeholder='ここにコメントを入力してください' style={{ width: '50%', height: '100px', margin: '0 auto' }} onChange={e => setContent(e.target.value)}></textarea>
+                    <Button type='submit' style={{ width: '10%', margin: '5px auto', fontSize: '20px', color: 'white', backgroundColor: 'blue', textAlign: 'center' }}>送信</Button>
                 </CommentForm>
             </CommentSection>
         </>
