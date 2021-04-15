@@ -182,18 +182,21 @@ const Restaurant = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        db.collection('rest').doc(`${id}`).collection('comments').set({
+        db.collection('rest').doc(`${id}`).collection('comments').doc(`${user[0].id}`).set({
             title: title,
             content: content,
             time: new Date(),
             user_id: user[0].id
         });
-        db.collection('user').doc(`${user[0].id}`).collection('comments').set({
+        db.collection('users').doc(`${user[0].docID}`).collection('comments').doc(`${id}`).set({
             title: title,
             content: content,
             time: new Date(),
             rest_id: id
         });
+        setTitle('');
+        setContent('');
+        window.alert('コメントが送信されました！');
     }
 
     return (
@@ -229,9 +232,9 @@ const Restaurant = () => {
 
             <CommentSection>
                 <h1 style={{ fontWeight: 'bold' }}>お店へのコメント</h1>
-                <CommentForm onSubimit={handleSubmit}>
-                    <input type='text' placeholder='タイトル' style={{ width: '20%', margin: '5px auto' }} onChange={e => setTitle(e.target.value)}></input>
-                    <textarea type='text' placeholder='ここにコメントを入力してください' style={{ width: '50%', height: '100px', margin: '0 auto' }} onChange={e => setContent(e.target.value)}></textarea>
+                <CommentForm onSubmit={handleSubmit}>
+                    <input type='text' placeholder='タイトル' value={title} style={{ width: '20%', margin: '5px auto' }} onChange={e => setTitle(e.target.value)}></input>
+                    <textarea type='text' placeholder='ここにコメントを入力してください' value={content} style={{ width: '50%', height: '100px', margin: '0 auto' }} onChange={e => setContent(e.target.value)}></textarea>
                     <Button type='submit' style={{ width: '10%', margin: '5px auto', fontSize: '20px', color: 'white', backgroundColor: 'blue', textAlign: 'center' }}>送信</Button>
                 </CommentForm>
             </CommentSection>
