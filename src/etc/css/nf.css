@@ -302,8 +302,10 @@
 }
 @media screen and (max-width: 600px) {
   .favorite-shop-number {
-    text-align: center;
+    width: 200px;
     margin-bottom: 10px;
+    margin: auto;
+    padding-bottom: 10px;
   }
 }
 .favorite-shop .shop-thumbnail {
@@ -333,6 +335,33 @@
 }
 .favorite-shop-name {
   margin-bottom: 10px;
+  line-height: 1.5;
+  font-weight: bold;
+  width: 250px;
+}
+@media screen and (max-width: 990px) {
+  .favorite-shop-name {
+    width: 150px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .favorite-shop-name {
+    width: 92%;
+  }
+}
+
+.Aggregate {
+  width: 250px;
+}
+@media screen and (max-width: 990px) {
+  .Aggregate {
+    width: 150px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .Aggregate {
+    width: 100%;
+  }
 }
 
 .non-image-text {

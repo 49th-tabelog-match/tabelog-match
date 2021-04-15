@@ -39,7 +39,7 @@ const FormDialog = ({ open, handleClose, images, setImages, docId }) => {
         const result = window.confirm('変更内容を保存しますか？')
 
         if (result) {
-            db.collection('users').doc(docId).set({
+            db.collection('users').doc(uid).set({
                 username: name,
                 userImage: images.path || '',
                 userDesc: description,

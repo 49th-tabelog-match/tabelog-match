@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 
 
-const FavoriteShop = () => {
+const FavoriteShop = ({ shopImage1, shopImage2, shopImage3, shopName1, shopName2, shopName3 }) => {
     const settings = {
         dots: true,
         infinite: true,
@@ -24,18 +24,18 @@ const FavoriteShop = () => {
                     <div className="favorite-shop-content">
                         <p className="favorite-shop-number">No.1</p>
                         <div className="shop-thumbnail">
-                            <img src='https://source.unsplash.com/random' alt="" />
+                            <img src={shopImage1 || ''} alt="" />
                         </div>
-                        <p className='favorite-shop-name'>店名</p>
+                        <p className='favorite-shop-name'>{shopName1}</p>
                         <p className='Aggregate'>34.5万またいきてぇ</p>
                     </div>
 
                     <div className="favorite-shop-content">
                         <p className="favorite-shop-number">No.2</p>
                         <div className="shop-thumbnail">
-                            <img src={sharinganLogo} alt="" />
+                            <img src={shopImage2 || ''} alt="" />
                         </div>
-                        <p className='favorite-shop-name'>店名</p>
+                        <p className='favorite-shop-name'>{shopName2}</p>
                         <p className='Aggregate'>24.5万またいきてぇ</p>
                     </div>
 
@@ -43,11 +43,11 @@ const FavoriteShop = () => {
                         <p className="favorite-shop-number">No.3</p>
                         <div className="shop-thumbnail">
                             <div className="non-image-text">
-                                <p>またいきてぇをした<br />お店がありません</p>
+                                {/* <p>またいきてぇをした<br />お店がありません</p> */}
+                                <img src={shopImage3 || ''} alt="" />
                             </div>
-                            {/* <img src={reactLogo} alt="" /> */}
                         </div>
-                        <p className='favorite-shop-name'>店名</p>
+                        <p className='favorite-shop-name'>{shopName3}</p>
                         <p className='Aggregate'>7.5万またいきてぇ</p>
                     </div>
                 </div>
@@ -59,10 +59,10 @@ const FavoriteShop = () => {
                         <div className="favorite-shop-content">
                             <p className="favorite-shop-number">No.1</p>
                             <div className="shop-thumbnail">
-                                <img src='https://source.unsplash.com/random' alt="" />
+                                <img src={shopImage1 || ''} alt="" />
                             </div>
                             <div style={{ width: '200px', margin: 'auto' }}>
-                                <p className='favorite-shop-name'>店名</p>
+                                <p className='favorite-shop-name'>{shopName1}</p>
                                 <p className='Aggregate'>34.5万またいきてぇ</p>
                             </div>
                         </div>
@@ -70,10 +70,10 @@ const FavoriteShop = () => {
                         <div className="favorite-shop-content">
                             <p className="favorite-shop-number">No.2</p>
                             <div className="shop-thumbnail">
-                                <img src={sharinganLogo} alt="" />
+                                <img src={shopImage2 || ''} alt="" />
                             </div>
                             <div style={{ width: '200px', margin: 'auto' }}>
-                                <p className='favorite-shop-name'>店名</p>
+                                <p className='favorite-shop-name'>{shopName2}</p>
                                 <p className='Aggregate'>24.5万またいきてぇ</p>
                             </div>
                         </div>
@@ -81,10 +81,10 @@ const FavoriteShop = () => {
                         <div className="favorite-shop-content">
                             <p className="favorite-shop-number">No.3</p>
                             <div className="shop-thumbnail">
-                                <img src={reactLogo} alt="" />
+                                <img src={shopImage3 || ''} alt="" />
                             </div>
                             <div style={{ width: '200px', margin: 'auto' }}>
-                                <p className='favorite-shop-name'>店名</p>
+                                <p className='favorite-shop-name'>{shopName3}</p>
                                 <p className='Aggregate'>7.5万またいきてぇ</p>
                             </div>
                         </div>

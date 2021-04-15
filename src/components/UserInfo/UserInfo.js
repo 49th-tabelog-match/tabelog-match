@@ -7,6 +7,8 @@ import { makeStyles, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
 import { AuthContext } from '../../AuthProvider';
 import { db } from '../../firebase';
+import axios from 'axios';
+import jsonpAdapter from 'axios-jsonp';
 
 const useStyles = makeStyles({
     'button': {
@@ -19,6 +21,7 @@ const useStyles = makeStyles({
 const UserInfo = () => {
     // firestoreから取得したuser情報を入れるステート
     const [users, setUsers] = useState([]);
+    console.log(users)
 
     // プロフィール編集用のモーダルの開閉を管理するstate
     const [open, setOpen] = useState(false);
@@ -36,6 +39,9 @@ const UserInfo = () => {
         setOpen(false);
     };
 
+    const [good, setGood] = useState('')
+    console.log(good)
+
     const classes = useStyles();
 
     const { authUser } = useContext(AuthContext)
@@ -43,6 +49,8 @@ const UserInfo = () => {
     const disabled = authUser ? false : true;
 
     const email = authUser && authUser.email;
+
+    const uid = authUser && authUser.uid
 
     useEffect(() => {
 
@@ -56,9 +64,62 @@ const UserInfo = () => {
                 })
                 setUsers(getUsers)
             })
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authUser])
 
+    // useEffect(() => {
+    //     db.collection('users').doc('7sWqXd63PlbIw8fijmal').collection('good').orderBy('timestamp', 'desc').limit(3)
+    //         .onSnapshot(snapshot => {
+    //             const getGood = snapshot.docs.map((doc) => {
+    //                 return {
+    //                     restId: doc.id
+    //                 }
+    //             })
+    //             setGood(getGood)
+    //         })
+    // }, [])
+    // useEffect(() => {
+    //     db.collection('users').where('email', '==', email).collection('good').orderBy('timestamp', 'desc').limit(3)
+    //         .onSnapshot(snapshot => {
+    //             const getGood = snapshot.docs.map((doc) => {
+    //                 return {
+    //                     restId: doc.id
+    //                 }
+    //             })
+    //             setGood(getGood)
+    //         })
+    // }, [])
+
+    const [shop, setShop] = useState('')
+
+    useEffect(() => {
+        users.length > 0 && db.collection('users').doc(users[0].docId).collection('good')
+            .onSnapshot(snapshot => {
+                const getGoodShop = snapshot.docs.map(doc => {
+                    return {
+                        restId: doc.id
+                    }
+                })
+                setGood(getGoodShop)
+            })
+        authUser || setGood('')
+    }, [users])
+
+
+
+    const API_ENDPOINT = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${good[good.length - 1] && good[good.length - 1].restId}&id=${good[good.length - 2] && good[good.length - 2].restId}&id=${good[good.length - 3] && good[good.length - 3].restId}&format=jsonp`
+
+    useEffect(() => {
+        console.log(good[good.length - 2])
+        axios.get(API_ENDPOINT, { 'adapter': jsonpAdapter })
+            .then((res) => {
+                console.log(res.data.results.shop)
+                setShop(res.data.results.shop)
+            })
+    }, [good])
+
+    console.log()
 
 
 
@@ -111,7 +172,14 @@ const UserInfo = () => {
                 <div className='user-info-wrap'>
                     <h2 className='user-info-title'>またいきてぇお店</h2>
                     <p className="user-info-desc">この人がまたいきてぇをしたお店です</p>
-                    <FavoriteShop />
+                    <FavoriteShop
+                        shopImage1={shop.length !== 0 && shop[0].photo.pc.m}
+                        shopImage2={shop.length !== 0 && shop[1].photo.pc.m}
+                        shopImage3={shop.length !== 0 && shop[2].photo.pc.m}
+                        shopName1={shop.length !== 0 && shop[0].name}
+                        shopName2={shop.length !== 0 && shop[1].name}
+                        shopName3={shop.length !== 0 && shop[2].name}
+                    />
                 </div>
 
                 <div className='user-info-wrap'>
