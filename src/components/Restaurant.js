@@ -74,6 +74,8 @@ const CommentForm = styled.form`
 //ここまでがスタイル
 
 const Restaurant = () => {
+    //ユーザー情報を受け取るstate
+    const [user, setUser] = useState([]);
     //useEffectからお店情報をstateで受け取る
     const [shopResult, setShopResult] = useState([{
         address: '',
@@ -90,17 +92,11 @@ const Restaurant = () => {
             name: ''
         }
     }]);
+
     //パスからお店のIDを取得
     const { id } = useParams();
 
-    //firebase.auth()からユーザーのプロフィール(ここではID)を取得
-    let user = auth.currentUser;
-    let uid;
-
-    if (user !== null) {
-        uid = user.uid
-    };
-
+    //user情報を取得
     const { authUser } = useContext(AuthContext);
     const email = authUser && authUser.email;
 
@@ -112,9 +108,10 @@ const Restaurant = () => {
                         ...doc.data(),
                         docId: doc.id
                     }
-                })
+                });
                 console.log(getUsers);
-            })
+                setUser(getUsers);
+            });
         axios.get(`http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&id=${id}&order=4&format=jsonp`, {
             'adapter': jsonpAdapter,
         }).then(res => {
@@ -132,7 +129,6 @@ const Restaurant = () => {
                 console.log(error);
             }
         );
-
     }, []);
     // 緯度・経度を変更
     const center = {
@@ -152,10 +148,16 @@ const Restaurant = () => {
     // いいねの状態の切り替え
     const handleClick = () => {
         if (good === false) {
-            db.collection('rest').doc(`${id}`)
-                .collection('good').doc('user_good').set({
-                    user_id: uid
-                });
+            console.log(`${user[0].id},${id}`);
+            // db.collection('rest').doc(`${id}`)
+            //     .collection('good').doc(`${user[0].id}`).set({
+            //         user_id: user[0].id
+            //     });
+            // db.collection('users').doc(`${user[0].id}`)
+            //     .collection('good').doc(`${id}`).set({
+            //         rest_id: id,
+            //         timestamp: new Date()
+            //     })
             setGood(true);
         }
     };
@@ -194,6 +196,7 @@ const Restaurant = () => {
                     ></GoogleMap>
                 </LoadScript>
             </Location>
+
             <CommentSection>
                 <h1 style={{ fontWeight: 'bold' }}>お店へのコメント</h1>
                 <CommentForm>
