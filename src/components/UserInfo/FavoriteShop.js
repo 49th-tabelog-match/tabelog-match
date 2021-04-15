@@ -17,6 +17,8 @@ const FavoriteShop = ({ shopImage1, shopImage2, shopImage3, shopName1, shopName2
         // autoplay: true,
         autoplaySpeed: 5000
     };
+
+    console.log(shopImage1)
     return (
         <>
             <div className='favorite-shop favorite-shop-pc'>

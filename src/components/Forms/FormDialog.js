@@ -34,12 +34,13 @@ const FormDialog = ({ open, handleClose, images, setImages, docId }) => {
     const { authUser } = useContext(AuthContext);
     const uid = authUser && authUser.uid
 
+
     // 変更ボタンをクリックした時にアラートを出し、OKならfirestoreにデーターを送信
     const submitForm = () => {
         const result = window.confirm('変更内容を保存しますか？')
 
         if (result) {
-            db.collection('users').doc(uid).set({
+            db.collection('users').doc(docId).set({
                 username: name,
                 userImage: images.path || '',
                 userDesc: description,
