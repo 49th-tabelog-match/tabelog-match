@@ -167,12 +167,13 @@ const Restaurant = () => {
             console.log(`${user[0].id},${id}`);
             db.collection('rest').doc(`${id}`)
                 .collection('good').doc(`${user[0].id}`).set({
-                    user_id: user[0].id
+                    user_id: user[0].id,
+                    time: new Date()
                 });
             db.collection('users').doc(user[0].docId)
                 .collection('good').doc(`${id}`).set({
                     rest_id: id,
-                    timestamp: new Date()
+                    time: new Date()
                 })
             setGood(true);
         } else {
