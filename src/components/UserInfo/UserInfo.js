@@ -139,7 +139,7 @@ const UserInfo = memo(() => {
     // いいねしたお店IDを取得
     useEffect(() => {
         users.length > 0 && db.collection('users').doc(users[0].docId).collection('good')
-            .orderBy('timestamp', 'desc').limit(3)
+            .orderBy('time', 'desc').limit(3)
             .onSnapshot(snapshot => {
                 const getGoodShop = snapshot.docs.map(doc => {
                     return {
@@ -233,7 +233,7 @@ const UserInfo = memo(() => {
     useEffect(() => {
         users.length > 0 && db.collection('users')
             .doc(users[0].docId).collection('comment')
-            .orderBy('timestamp', 'desc').limit(3)
+            .orderBy('time', 'desc').limit(3)
             .onSnapshot(snapshot => {
                 const getCommentShop = snapshot.docs.map(doc => {
                     return {
