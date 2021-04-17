@@ -52,14 +52,14 @@ const OtherUserInfo = memo(() => {
     /*                通常の変数               */
     // ////////////////////////////////////////
     // いいねしたお店三軒分を取得するURL設定
-    const goodShop1Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${good[good.length - 1] && good[good.length - 1].restId}&format=jsonp`
-    const goodShop2Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${good[good.length - 2] && good[good.length - 2].restId}&format=jsonp`
-    const goodShop3Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${good[good.length - 3] && good[good.length - 3].restId}&format=jsonp`
+    const goodShop1Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${process.env.REACT_APP_HOTPEPPER_API_KEY1}&id=${good[good.length - 1] && good[good.length - 1].restId}&format=jsonp`
+    const goodShop2Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${process.env.REACT_APP_HOTPEPPER_API_KEY1}&id=${good[good.length - 2] && good[good.length - 2].restId}&format=jsonp`
+    const goodShop3Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${process.env.REACT_APP_HOTPEPPER_API_KEY1}&id=${good[good.length - 3] && good[good.length - 3].restId}&format=jsonp`
 
     // コメントしたお店三軒分を取得するURL設定
-    const commentShop1Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${comment[comment.length - 1] && comment[comment.length - 1].restId}&format=jsonp`
-    const commentShop2Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${comment[comment.length - 2] && comment[comment.length - 2].restId}&format=jsonp`
-    const commentShop3Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${comment[comment.length - 3] && comment[comment.length - 3].restId}&format=jsonp`
+    const commentShop1Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${process.env.REACT_APP_HOTPEPPER_API_KEY1}&id=${comment[comment.length - 1] && comment[comment.length - 1].restId}&format=jsonp`
+    const commentShop2Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${process.env.REACT_APP_HOTPEPPER_API_KEY1}&id=${comment[comment.length - 2] && comment[comment.length - 2].restId}&format=jsonp`
+    const commentShop3Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${process.env.REACT_APP_HOTPEPPER_API_KEY1}&id=${comment[comment.length - 3] && comment[comment.length - 3].restId}&format=jsonp`
 
     const { id } = useParams()
 
