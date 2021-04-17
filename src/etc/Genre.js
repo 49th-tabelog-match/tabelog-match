@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 
-const API_ENDPOINT = 'https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=17f7928912557ff8&format=jsonp';
+const API_ENDPOINT = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=${process.env.REACT_APP_HOTPEPPER_API_KEY}&format=jsonp`;
 
 const Genre = ({ genres, setGenres, selectGenre, setSelectGenre }) => {
   window.callback = json => console.log(json);
