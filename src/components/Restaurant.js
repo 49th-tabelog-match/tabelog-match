@@ -64,12 +64,12 @@ const Span = styled.span`
     font-weight: bold;
 `;
 
-const CommentForm = styled.form`
-    margin: 0 auto 100px;
-    background-color: #c0c0c0;
-    display: flex;
-    flex-direction: column;
-`;
+// const CommentForm = styled.form`
+//     margin: 0 auto 100px;
+//     background-color: #c0c0c0;
+//     display: flex;
+//     flex-direction: column;
+// `;
 //ここまでがスタイル
 
 const Restaurant = () => {
@@ -102,16 +102,16 @@ const Restaurant = () => {
     const [counter, setCounter] = useState([]);
 
     //コメント情報を入れるstate
-    const [comments, setComments] = useState([{
-        user_id: '',
-        title: '',
-        content: '',
-        time: null
-    }]);
+    // const [comments, setComments] = useState([{
+    //     user_id: '',
+    //     title: '',
+    //     content: '',
+    //     time: null
+    // }]);
 
     //コメントのタイトルと文章をstateに渡す
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    // const [title, setTitle] = useState('');
+    // const [content, setContent] = useState('');
 
     //パスからお店のIDを取得
     const { id } = useParams();
@@ -138,13 +138,13 @@ const Restaurant = () => {
             })
             setCounter(goodCount);
         });
-        db.collection('rest').doc(id).collection('comments').onSnapshot(snap => {
-            const getComments = snap.docs.map(doc => {
-                return doc.data();
-            })
-            setComments(getComments);
-            console.log(comments);
-        });
+        // db.collection('rest').doc(id).collection('comments').onSnapshot(snap => {
+        //     const getComments = snap.docs.map(doc => {
+        //         return doc.data();
+        //     })
+        //     setComments(getComments);
+        //     console.log(comments);
+        // });
         axios.get(`http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&id=${id}&order=4&format=jsonp`, {
             'adapter': jsonpAdapter,
         }).then(res => {
@@ -208,24 +208,24 @@ const Restaurant = () => {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        db.collection('rest').doc(id).collection('comments').doc(user[0].id).set({
-            title: title,
-            content: content,
-            time: new Date(),
-            user_id: user[0].id
-        });
-        db.collection('users').doc(user[0].docID).collection('comments').doc(id).set({
-            title: title,
-            content: content,
-            time: new Date(),
-            rest_id: id
-        });
-        setTitle('');
-        setContent('');
-        window.alert('コメントが送信されました！');
-    }
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     db.collection('rest').doc(id).collection('comments').doc(user[0].id).set({
+    //         title: title,
+    //         content: content,
+    //         time: new Date(),
+    //         user_id: user[0].id
+    //     });
+    //     db.collection('users').doc(user[0].docID).collection('comments').doc(id).set({
+    //         title: title,
+    //         content: content,
+    //         time: new Date(),
+    //         rest_id: id
+    //     });
+    //     setTitle('');
+    //     setContent('');
+    //     window.alert('コメントが送信されました！');
+    // }
 
     return (
         <>
@@ -258,7 +258,7 @@ const Restaurant = () => {
                 </LoadScript>
             </Location>
 
-            <CommentSection>
+            {/* <CommentSection>
                 <h1 style={{ fontWeight: 'bold' }}>お店へのコメント</h1>
                 <CommentForm onSubmit={handleSubmit}>
                     <input type='text' placeholder='タイトル' value={title} style={{ width: '20%', margin: '5px auto' }} onChange={e => setTitle(e.target.value)}></input>
@@ -266,7 +266,7 @@ const Restaurant = () => {
                     <Button type='submit' style={{ width: '10%', margin: '5px auto', fontSize: '20px', color: 'white', backgroundColor: 'blue', textAlign: 'center' }}>送信</Button>
                 </CommentForm>
             </CommentSection>
-            {/* {
+            {
                 comments ?
                     comments.map(comment => {
                         <div>
