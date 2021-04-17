@@ -19,8 +19,6 @@ const useStyles = makeStyles({
     }
 })
 
-
-
 const Header = ({ children }) => {
     // ハンバガーメニューをクリックした時にメニューの表示を切り替えるステート
     const [openMenu, setOpenMenu] = useState(false)

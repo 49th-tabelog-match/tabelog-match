@@ -50,11 +50,6 @@ const UserInfo = memo(() => {
     const [goodShop2Count, setGoodShop2Count] = useState('');
     const [goodShop3Count, setGoodShop3Count] = useState('');
 
-
-    // console.log(goodShop1Count)
-    // console.log(goodShop2Count)
-    // console.log(goodShop3Count)
-
     // コメントしたお店のIDを入れる
     const [comment, setComment] = useState('');
     // console.log(comment)
@@ -67,11 +62,6 @@ const UserInfo = memo(() => {
     const [commentShop1Count, setCommentShop1Count] = useState('');
     const [commentShop2Count, setCommentShop2Count] = useState('');
     const [commentShop3Count, setCommentShop3Count] = useState('');
-
-    // console.log(commentShop1Count)
-    // console.log(commentShop2Count)
-    // console.log(commentShop3Count)
-
 
     // ////////////////////////////////////////
     /*                通常の変数               */
@@ -121,7 +111,6 @@ const UserInfo = memo(() => {
 
     // ユーザー情報を取得
     useEffect(() => {
-
         db.collection('users').where('email', '==', email)
             .onSnapshot(snapshot => {
                 const getUsers = snapshot.docs.map(doc => {
@@ -132,8 +121,6 @@ const UserInfo = memo(() => {
                 })
                 setUsers(getUsers)
             })
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authUser])
 
     // いいねしたお店IDを取得
@@ -153,28 +140,22 @@ const UserInfo = memo(() => {
 
     // いいねしたお店の情報を取得
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(goodShop1Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setGoodShop1(res.data.results.shop)
             })
     }, [good])
 
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(goodShop2Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setGoodShop2(res.data.results.shop)
             })
     }, [good])
 
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(goodShop3Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setGoodShop3(res.data.results.shop)
             })
     }, [good])
@@ -219,15 +200,7 @@ const UserInfo = memo(() => {
         authUser || setGoodShop3Count('')
     }, [goodShop3])
 
-    // いいねしたお店IDからお店情報を取得
-    // useEffect(() => {
-    //     // console.log(good[good.length - 2])
-    //     axios.get(API_ENDPOINT, { 'adapter': jsonpAdapter })
-    //         .then((res) => {
-    //             // console.log(res.data.results.shop)
-    //             setGoodShop(res.data.results.shop)
-    //         })
-    // }, [good])
+
 
     // コメントしたお店のIDを取得
     useEffect(() => {
@@ -245,39 +218,24 @@ const UserInfo = memo(() => {
         authUser || setComment('')
     }, [users])
 
-    // useEffect(() => {
-    //     // console.log(good[good.length - 2])
-    //     axios.get(API_ENDPOINT2, { 'adapter': jsonpAdapter })
-    //         .then((res) => {
-    //             console.log(res.data.results.shop)
-    //             setCommentShop(res.data.results.shop)
-    //         })
-    // }, [comment]) 
-
     // コメントしたお店の情報を取得
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(commentShop1Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setCommentShop1(res.data.results.shop)
             })
     }, [comment])
 
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(commentShop2Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setCommentShop2(res.data.results.shop)
             })
     }, [comment])
 
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(commentShop3Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setCommentShop3(res.data.results.shop)
             })
     }, [comment])

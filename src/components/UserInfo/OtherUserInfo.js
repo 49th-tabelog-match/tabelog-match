@@ -22,11 +22,9 @@ const OtherUserInfo = memo(() => {
 
     // firestoreから取得したuser情報を入れるステート
     const [users, setUsers] = useState([]);
-    // console.log(users)
 
     // いいねしたお店のドキュメント(お店ID)を入れる
     const [good, setGood] = useState('');
-    // console.log(good)
 
     // goodステートのお店IDでお店の情報を取得したものを入れる
     // const [goodShop, setGoodShop] = useState('');
@@ -39,10 +37,6 @@ const OtherUserInfo = memo(() => {
     const [goodShop2Count, setGoodShop2Count] = useState('');
     const [goodShop3Count, setGoodShop3Count] = useState('');
 
-    // console.log(goodShop1Count)
-    // console.log(goodShop2Count)
-    // console.log(goodShop3Count)
-
     // コメントしたお店IDを入れる
     const [comment, setComment] = useState('');
     const [commentShop1, setCommentShop1] = useState('');
@@ -53,10 +47,6 @@ const OtherUserInfo = memo(() => {
     const [commentShop1Count, setCommentShop1Count] = useState('');
     const [commentShop2Count, setCommentShop2Count] = useState('');
     const [commentShop3Count, setCommentShop3Count] = useState('');
-
-    // console.log(commentShop1Count)
-    // console.log(commentShop2Count)
-    // console.log(commentShop3Count)
 
     // ////////////////////////////////////////
     /*                通常の変数               */
@@ -110,28 +100,22 @@ const OtherUserInfo = memo(() => {
 
     // いいねしたお店情報を取得
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(goodShop1Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setGoodShop1(res.data.results.shop)
             })
     }, [good])
 
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(goodShop2Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setGoodShop2(res.data.results.shop)
             })
     }, [good])
 
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(goodShop3Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setGoodShop3(res.data.results.shop)
             })
     }, [good])
@@ -190,28 +174,22 @@ const OtherUserInfo = memo(() => {
 
     // コメントしたお店情報を取得
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(commentShop1Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setCommentShop1(res.data.results.shop)
             })
     }, [comment])
 
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(commentShop2Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setCommentShop2(res.data.results.shop)
             })
     }, [comment])
 
     useEffect(() => {
-        // console.log(good[good.length - 2])
         axios.get(commentShop3Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                // console.log(res.data.results.shop)
                 setCommentShop3(res.data.results.shop)
             })
     }, [comment])
