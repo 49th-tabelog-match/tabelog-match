@@ -56,7 +56,7 @@ const FavoriteShop = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shop
                         {/* <p className="favorite-shop-number">No.3</p> */}
                         <div className="shop-thumbnail">
                             {shopImage3 ? (
-                                <img src={shopImage3 || ''} alt="" onClick={() => shopImage3 && history.push(`restaurant/${shopId3}`)} />
+                                <img src={shopImage3 || ''} alt="" onClick={() => shopImage3 && history.push(`/restaurant/${shopId3}`)} />
                             ) : (
                                 <div className="non-image-text">
                                     <p>またいきてぇをした<br />お店がありません</p>
