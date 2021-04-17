@@ -54,8 +54,8 @@ const SearchResult = () => {
     });
     return (
         <div className='container'>
-            <h2 className='header-h2' style={{ fontSize: '25px', marginBottom: '10px' }}>いきてぇお店ランキング</h2>
-            <p style={{ marginBottom: '40px' }}>多くの人がいきてぇをしたお店のランキングです</p>
+            <h2 className='header-h2' style={{ fontSize: '25px', marginBottom: '10px' }}>お店検索結果</h2>
+            <p style={{ marginBottom: '40px' }}>あなたが検索したお店の結果です</p>
             <div>
                 {shopresults}
             </div>
