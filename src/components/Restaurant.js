@@ -98,7 +98,7 @@ const Restaurant = () => {
         }
     }]);
 
-    //いいねの数をカウントするためのstate
+    //いいねの情報を入れるstate(counter.lengthでいいねの数を集計)
     const [counter, setCounter] = useState([]);
 
     //コメントのタイトルと文章をstateに渡す
@@ -144,7 +144,7 @@ const Restaurant = () => {
                 }
             );
         });
-    }, []);
+    }, [authUser]);
 
     // 緯度・経度を変更
     const center = {
