@@ -77,12 +77,12 @@ const Header = ({ children }) => {
                             <li onClick={() => history.push('/userinfo')} ><span className="under-line">ユーザーページ</span></li>
                             <li onClick={() => history.push('/search')} ><span className="under-line">検索ページ</span></li>
                             {/* <li><span className="under-line">チャット一覧</span></li> */}
-                            <li><span className="under-line">お知らせ</span></li>
+                            {/* <li><span className="under-line">お知らせ</span></li>
                             <li><span className="under-line">このサービスの使い方</span></li>
-                            <li><span className="under-line">よくある質問</span></li>
+                            <li><span className="under-line">よくある質問</span></li> */}
                             <li onClick={() => auth.signOut()} ><span className="under-line">ログアウト</span></li>
-                            <li><span className="under-line">利用規約</span></li>
-                            <li><span className="under-line">ポリシー</span></li>
+                            {/* <li><span className="under-line">利用規約</span></li>
+                            <li><span className="under-line">ポリシー</span></li> */}
                         </ul>
                     </nav>
 
