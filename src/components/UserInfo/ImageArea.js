@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import dummy from '../../etc/img/default-icon.png'
 
 
-const ImageArea = ({ images }) => {
+const ImageArea = memo(({ images }) => {
 
     return (
         <div className="user-profile-images" >
@@ -13,6 +13,6 @@ const ImageArea = ({ images }) => {
             </div>
         </div>
     )
-}
+})
 
 export default ImageArea;

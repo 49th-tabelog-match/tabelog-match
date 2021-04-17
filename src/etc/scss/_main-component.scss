@@ -21,11 +21,9 @@
     height: 100vh;
     width: 100%;
     background-size: cover;
-    background-position: center;
-    // overflow: hidden;
-    // @include sp {
-    //     height: 300px;
-    // }
+    @include sp {
+        background-position-x: 10%;
+    }
     // img {
     //     width: 100%;
     //     height: 100%;
@@ -42,6 +40,7 @@
     color: white;
     font-family: 'Yusei Magic', sans-serif;
     @include sp {
+        margin-bottom: 50px;
         font-size: 30px;
         min-width:260px;
     }

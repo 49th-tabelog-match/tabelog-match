@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,9 +9,8 @@ import TextInput from './TextInput';
 import { DialogContentText } from '@material-ui/core';
 import ImageAreaPreview from '../UserInfo/ImageAreaPreview';
 import { db } from '../../firebase';
-import { AuthContext } from '../../AuthProvider';
 
-const FormDialog = ({ open, handleClose, images, setImages, docId }) => {
+const FormDialog = memo(({ open, handleClose, images, setImages, docId }) => {
     // プロフィールを編集の自己紹介のフォームの値を管理
     const [description, setDescription] = useState('');
 
@@ -30,9 +29,6 @@ const FormDialog = ({ open, handleClose, images, setImages, docId }) => {
     const inputDescription = (e) => {
         setDescription(e.target.value)
     }
-
-    const { authUser } = useContext(AuthContext);
-    const uid = authUser && authUser.uid
 
     // 変更ボタンをクリックした時にアラートを出し、OKならfirestoreにデーターを送信
     const submitForm = () => {
@@ -92,6 +88,6 @@ const FormDialog = ({ open, handleClose, images, setImages, docId }) => {
             </DialogActions>
         </Dialog >
     )
-}
+})
 
 export default FormDialog;

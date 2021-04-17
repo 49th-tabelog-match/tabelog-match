@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 
 
-const FavoriteShop = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shopName2, shopName3, shopId1, shopId2, shopId3, goodCount1, goodCount2, goodCount3 }) => {
+const FavoriteShopComment = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shopName2, shopName3, shopId1, shopId2, shopId3, goodCount1, goodCount2, goodCount3 }) => {
     const settings = {
         dots: true,
         infinite: true,
@@ -34,7 +34,7 @@ const FavoriteShop = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shop
                             )}
                         </div>
                         <p className='favorite-shop-name'>{shopName1}</p>
-                        <p className='Aggregate'>{`${goodCount1}：またいきてぇ`} </p>
+                        <p className='Aggregate'>{`${goodCount1}：またいきてぇ`}</p>
                     </div>
 
                     <div className="favorite-shop-content">
@@ -49,22 +49,24 @@ const FavoriteShop = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shop
                             )}
                         </div>
                         <p className='favorite-shop-name'>{shopName2}</p>
-                        <p className='Aggregate'>{`${goodCount2}：またいきてぇ`} </p>
+                        <p className='Aggregate'>{`${goodCount2}：またいきてぇ`}</p>
                     </div>
 
                     <div className="favorite-shop-content">
                         {/* <p className="favorite-shop-number">No.3</p> */}
                         <div className="shop-thumbnail">
-                            {shopImage3 ? (
-                                <img src={shopImage3 || ''} alt="" onClick={() => shopImage3 && history.push(`restaurant/${shopId3}`)} />
-                            ) : (
-                                <div className="non-image-text">
-                                    <p>またいきてぇをした<br />お店がありません</p>
-                                </div>
-                            )}
+                            <div className="non-image-text">
+                                {shopImage3 ? (
+                                    <img src={shopImage3 || ''} alt="" onClick={() => shopImage3 && history.push(`restaurant/${shopId3}`)} />
+                                ) : (
+                                    <div className="non-image-text">
+                                        <p>またいきてぇをした<br />お店がありません</p>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <p className='favorite-shop-name'>{shopName3}</p>
-                        <p className='Aggregate'>{`${goodCount3}：またいきてぇ`} </p>
+                        <p className='Aggregate'>{`${goodCount3}：またいきてぇ`}</p>
                     </div>
                 </div>
             </div>
@@ -131,4 +133,4 @@ const FavoriteShop = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shop
     )
 })
 
-export default FavoriteShop;
+export default FavoriteShopComment;
