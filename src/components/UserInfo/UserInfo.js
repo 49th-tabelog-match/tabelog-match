@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint react-hooks/exhaustive-deps: off */
+import React, { memo, useContext, useEffect, useState } from 'react';
 import FormDialog from '../Forms/FormDialog'
 import FavoriteShop from './FavoriteShop';
 import ImageArea from './ImageArea';
@@ -9,6 +10,7 @@ import { AuthContext } from '../../AuthProvider';
 import { db } from '../../firebase';
 import axios from 'axios';
 import jsonpAdapter from 'axios-jsonp';
+import FavoriteShopComment from './FavoriteShopComment';
 
 const useStyles = makeStyles({
     'button': {
@@ -18,14 +20,14 @@ const useStyles = makeStyles({
     }
 })
 
-const UserInfo = () => {
+const UserInfo = memo(() => {
     // /////////////////////////////////////////
     /*              useState                  */
     // ////////////////////////////////////////
 
     // firestoreから取得したuser情報を入れるステート
     const [users, setUsers] = useState([]);
-    console.log(users)
+    // console.log(users)
 
     // プロフィール編集用のモーダルの開閉を管理するstate
     const [open, setOpen] = useState(false);
@@ -34,17 +36,58 @@ const UserInfo = () => {
     const [images, setImages] = useState('');
 
     // いいねしたお店のドキュメント(お店ID)を入れる
-    const [good, setGood] = useState('')
-    console.log(good)
+    const [good, setGood] = useState('');
+    // console.log(good)
 
     // goodステートのお店IDでお店の情報を取得したものを入れる
-    const [shop, setShop] = useState('')
+    // const [goodShop, setGoodShop] = useState('');
+    const [goodShop1, setGoodShop1] = useState('');
+    const [goodShop2, setGoodShop2] = useState('');
+    const [goodShop3, setGoodShop3] = useState('');
+
+    // いいねしたお店のいいね数を入れる
+    const [goodShop1Count, setGoodShop1Count] = useState('');
+    const [goodShop2Count, setGoodShop2Count] = useState('');
+    const [goodShop3Count, setGoodShop3Count] = useState('');
+
+
+    // console.log(goodShop1Count)
+    // console.log(goodShop2Count)
+    // console.log(goodShop3Count)
+
+    // コメントしたお店のIDを入れる
+    const [comment, setComment] = useState('');
+    // console.log(comment)
+    // const [commentShop, setCommentShop] = useState('');
+    const [commentShop1, setCommentShop1] = useState('');
+    const [commentShop2, setCommentShop2] = useState('');
+    const [commentShop3, setCommentShop3] = useState('');
+
+    // コメントしたお店のいいね数を入れる
+    const [commentShop1Count, setCommentShop1Count] = useState('');
+    const [commentShop2Count, setCommentShop2Count] = useState('');
+    const [commentShop3Count, setCommentShop3Count] = useState('');
+
+    // console.log(commentShop1Count)
+    // console.log(commentShop2Count)
+    // console.log(commentShop3Count)
+
 
     // ////////////////////////////////////////
     /*                通常の変数               */
     // ////////////////////////////////////////
 
-    const API_ENDPOINT = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${good[good.length - 1] && good[good.length - 1].restId}&id=${good[good.length - 2] && good[good.length - 2].restId}&id=${good[good.length - 3] && good[good.length - 3].restId}&format=jsonp`
+    // const API_ENDPOINT = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${good[good.length - 1] && good[good.length - 1].restId}&id=${good[good.length - 2] && good[good.length - 2].restId}&id=${good[good.length - 3] && good[good.length - 3].restId}&format=jsonp`
+    // const API_ENDPOINT2 = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${comment[comment.length - 1] && comment[comment.length - 1].restId}&id=${comment[comment.length - 2] && comment[comment.length - 2].restId}&id=${comment[comment.length - 3] && comment[comment.length - 3].restId}&format=jsonp`
+    // const API_ENDPOINT2 = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${comment[comment.length - 3] && comment[comment.length - 3].restId}&id=${comment[comment.length - 2] && comment[comment.length - 2].restId}&id=${comment[comment.length - 1] && comment[comment.length - 1].restId}&format=jsonp`
+
+    const goodShop1Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${good[good.length - 1] && good[good.length - 1].restId}&format=jsonp`
+    const goodShop2Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${good[good.length - 2] && good[good.length - 2].restId}&format=jsonp`
+    const goodShop3Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${good[good.length - 3] && good[good.length - 3].restId}&format=jsonp`
+
+    const commentShop1Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${comment[comment.length - 1] && comment[comment.length - 1].restId}&format=jsonp`
+    const commentShop2Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${comment[comment.length - 2] && comment[comment.length - 2].restId}&format=jsonp`
+    const commentShop3Url = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=4883ba76de4f3d72&id=${comment[comment.length - 3] && comment[comment.length - 3].restId}&format=jsonp`
 
     // ButtonのCSSを変更する変数
     const classes = useStyles();
@@ -76,6 +119,7 @@ const UserInfo = () => {
     /*                 UseEffect                */
     // //////////////////////////////////////////
 
+    // ユーザー情報を取得
     useEffect(() => {
 
         db.collection('users').where('email', '==', email)
@@ -92,8 +136,10 @@ const UserInfo = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authUser])
 
+    // いいねしたお店IDを取得
     useEffect(() => {
         users.length > 0 && db.collection('users').doc(users[0].docId).collection('good')
+            .orderBy('timestamp', 'desc').limit(3)
             .onSnapshot(snapshot => {
                 const getGoodShop = snapshot.docs.map(doc => {
                     return {
@@ -105,14 +151,176 @@ const UserInfo = () => {
         authUser || setGood('')
     }, [users])
 
+    // いいねしたお店の情報を取得
     useEffect(() => {
-        console.log(good[good.length - 2])
-        axios.get(API_ENDPOINT, { 'adapter': jsonpAdapter })
+        // console.log(good[good.length - 2])
+        axios.get(goodShop1Url, { 'adapter': jsonpAdapter })
             .then((res) => {
-                console.log(res.data.results.shop)
-                setShop(res.data.results.shop)
+                // console.log(res.data.results.shop)
+                setGoodShop1(res.data.results.shop)
             })
     }, [good])
+
+    useEffect(() => {
+        // console.log(good[good.length - 2])
+        axios.get(goodShop2Url, { 'adapter': jsonpAdapter })
+            .then((res) => {
+                // console.log(res.data.results.shop)
+                setGoodShop2(res.data.results.shop)
+            })
+    }, [good])
+
+    useEffect(() => {
+        // console.log(good[good.length - 2])
+        axios.get(goodShop3Url, { 'adapter': jsonpAdapter })
+            .then((res) => {
+                // console.log(res.data.results.shop)
+                setGoodShop3(res.data.results.shop)
+            })
+    }, [good])
+
+    // いいねしたお店のいいね数を取得
+    useEffect(() => {
+        goodShop1.length > 0 && db.collection('rest').doc(goodShop1[0].id).collection('good')
+            .onSnapshot(snapshot => {
+                const GoodCount = snapshot.docs.map((doc) => {
+                    return {
+                        ...doc.id
+                    }
+                })
+                setGoodShop1Count(GoodCount.length)
+            })
+        authUser || setGoodShop1Count('')
+    }, [goodShop1])
+
+    useEffect(() => {
+        goodShop2.length > 0 && db.collection('rest').doc(goodShop2[0].id).collection('good')
+            .onSnapshot(snapshot => {
+                const GoodCount = snapshot.docs.map((doc) => {
+                    return {
+                        ...doc.id
+                    }
+                })
+                setGoodShop2Count(GoodCount.length)
+            })
+        authUser || setGoodShop2Count('')
+    }, [goodShop2])
+
+    useEffect(() => {
+        goodShop3.length > 0 && db.collection('rest').doc(goodShop3[0].id).collection('good')
+            .onSnapshot(snapshot => {
+                const GoodCount = snapshot.docs.map((doc) => {
+                    return {
+                        ...doc.id
+                    }
+                })
+                setGoodShop3Count(GoodCount.length)
+            })
+        authUser || setGoodShop3Count('')
+    }, [goodShop3])
+
+    // いいねしたお店IDからお店情報を取得
+    // useEffect(() => {
+    //     // console.log(good[good.length - 2])
+    //     axios.get(API_ENDPOINT, { 'adapter': jsonpAdapter })
+    //         .then((res) => {
+    //             // console.log(res.data.results.shop)
+    //             setGoodShop(res.data.results.shop)
+    //         })
+    // }, [good])
+
+    // コメントしたお店のIDを取得
+    useEffect(() => {
+        users.length > 0 && db.collection('users')
+            .doc(users[0].docId).collection('comment')
+            .orderBy('timestamp', 'desc').limit(3)
+            .onSnapshot(snapshot => {
+                const getCommentShop = snapshot.docs.map(doc => {
+                    return {
+                        restId: doc.id
+                    }
+                })
+                setComment(getCommentShop)
+            })
+        authUser || setComment('')
+    }, [users])
+
+    // useEffect(() => {
+    //     // console.log(good[good.length - 2])
+    //     axios.get(API_ENDPOINT2, { 'adapter': jsonpAdapter })
+    //         .then((res) => {
+    //             console.log(res.data.results.shop)
+    //             setCommentShop(res.data.results.shop)
+    //         })
+    // }, [comment]) 
+
+    // コメントしたお店の情報を取得
+    useEffect(() => {
+        // console.log(good[good.length - 2])
+        axios.get(commentShop1Url, { 'adapter': jsonpAdapter })
+            .then((res) => {
+                // console.log(res.data.results.shop)
+                setCommentShop1(res.data.results.shop)
+            })
+    }, [comment])
+
+    useEffect(() => {
+        // console.log(good[good.length - 2])
+        axios.get(commentShop2Url, { 'adapter': jsonpAdapter })
+            .then((res) => {
+                // console.log(res.data.results.shop)
+                setCommentShop2(res.data.results.shop)
+            })
+    }, [comment])
+
+    useEffect(() => {
+        // console.log(good[good.length - 2])
+        axios.get(commentShop3Url, { 'adapter': jsonpAdapter })
+            .then((res) => {
+                // console.log(res.data.results.shop)
+                setCommentShop3(res.data.results.shop)
+            })
+    }, [comment])
+
+    // コメントしたお店のいいね数を取得
+    useEffect(() => {
+        commentShop1.length > 0 && db.collection('rest').doc(commentShop1[0].id).collection('good')
+            .onSnapshot(snapshot => {
+                const GoodCount = snapshot.docs.map((doc) => {
+                    return {
+                        ...doc.id
+                    }
+                })
+                setCommentShop1Count(GoodCount.length)
+            })
+        authUser || setCommentShop1Count('')
+    }, [commentShop1])
+
+    useEffect(() => {
+        commentShop2.length > 0 && db.collection('rest').doc(commentShop2[0].id).collection('good')
+            .onSnapshot(snapshot => {
+                const GoodCount = snapshot.docs.map((doc) => {
+                    return {
+                        ...doc.id
+                    }
+                })
+                setCommentShop2Count(GoodCount.length)
+            })
+        authUser || setCommentShop2Count('')
+    }, [commentShop2])
+
+    useEffect(() => {
+        commentShop3.length > 0 && db.collection('rest').doc(commentShop3[0].id).collection('good')
+            .onSnapshot(snapshot => {
+                const GoodCount = snapshot.docs.map((doc) => {
+                    return {
+                        ...doc.id
+                    }
+                })
+                setCommentShop3Count(GoodCount.length)
+            })
+        authUser || setCommentShop3Count('')
+    }, [commentShop3])
 
     return (
         <>
@@ -145,7 +353,7 @@ const UserInfo = () => {
                         placeholder='自己紹介' />
                 </div>
 
-                <div className='user-info-wrap'>
+                {/* <div className='user-info-wrap'>
                     <h2 className='user-info-title'>こんな感じでごはんが食べたい</h2>
                     <p className="user-info-desc user-info-desc-second">このユーザーがどんなふうに一緒にごはんを食べたいのか分かります</p>
                 </div>
@@ -158,25 +366,44 @@ const UserInfo = () => {
                 <div className='user-info-wrap'>
                     <h2 className='user-info-title'>時間帯の傾向</h2>
                     <p className="user-info-desc">このサービスを使って行ったときの時間帯から集計しています</p>
-                </div>
+                </div> */}
 
                 <div className='user-info-wrap'>
                     <h2 className='user-info-title'>またいきてぇお店</h2>
                     <p className="user-info-desc">この人がまたいきてぇをしたお店です</p>
                     <FavoriteShop
-                        shopImage1={shop[0] && shop[0].photo.pc.m}
-                        shopImage2={shop[1] && shop[1].photo.pc.m}
-                        shopImage3={shop[2] && shop[2].photo.pc.m}
-                        shopName1={shop[0] && shop[0].name}
-                        shopName2={shop[1] && shop[1].name}
-                        shopName3={shop[2] && shop[2].name}
+                        shopImage1={goodShop1[0] && goodShop1[0].photo.pc.m}
+                        shopImage2={goodShop2[0] && goodShop2[0].photo.pc.m}
+                        shopImage3={goodShop3[0] && goodShop3[0].photo.pc.m}
+                        shopName1={goodShop1[0] && goodShop1[0].name}
+                        shopName2={goodShop2[0] && goodShop2[0].name}
+                        shopName3={goodShop3[0] && goodShop3[0].name}
+                        shopId1={goodShop1[0] && goodShop1[0].id}
+                        shopId2={goodShop2[0] && goodShop2[0].id}
+                        shopId3={goodShop3[0] && goodShop3[0].id}
+                        goodCount1={goodShop1Count && goodShop1Count}
+                        goodCount2={goodShop2Count && goodShop2Count}
+                        goodCount3={goodShop3Count && goodShop3Count}
                     />
                 </div>
 
                 <div className='user-info-wrap'>
                     <h2 className='user-info-title'>行ったお店のコメント</h2>
-                    <p className="user-info-desc">この人がまたいきてぇをしたお店です</p>
-                    <FavoriteShop />
+                    <p className="user-info-desc">この人がコメントをしたお店です</p>
+                    <FavoriteShopComment
+                        shopImage1={commentShop1[0] && commentShop1[0].photo.pc.m}
+                        shopImage2={commentShop2[0] && commentShop2[0].photo.pc.m}
+                        shopImage3={commentShop3[0] && commentShop3[0].photo.pc.m}
+                        shopName1={commentShop1[0] && commentShop1[0].name}
+                        shopName2={commentShop2[0] && commentShop2[0].name}
+                        shopName3={commentShop3[0] && commentShop3[0].name}
+                        shopId1={commentShop1[0] && commentShop1[0].id}
+                        shopId2={commentShop2[0] && commentShop2[0].id}
+                        shopId3={commentShop3[0] && commentShop3[0].id}
+                        goodCount1={commentShop1Count && commentShop1Count}
+                        goodCount2={commentShop2Count && commentShop2Count}
+                        goodCount3={commentShop3Count && commentShop3Count}
+                    />
                 </div>
 
             </div>
@@ -191,6 +418,6 @@ const UserInfo = () => {
             />
         </>
     )
-}
+})
 
 export default UserInfo;

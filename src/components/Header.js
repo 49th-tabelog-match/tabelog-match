@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import logo from '../etc/img/tabelog.png'
+import logo from '../etc/img/tabelog-match.png'
 import { Squash as Hamburger } from 'hamburger-react'
 import { AuthContext } from '../AuthProvider';
 import { Button, makeStyles } from '@material-ui/core';
@@ -78,7 +78,7 @@ const Header = ({ children }) => {
                         <ul>
                             <li onClick={() => history.push('/userinfo')} ><span className="under-line">ユーザーページ</span></li>
                             <li onClick={() => history.push('/search')} ><span className="under-line">検索ページ</span></li>
-                            <li><span className="under-line">チャット一覧</span></li>
+                            {/* <li><span className="under-line">チャット一覧</span></li> */}
                             <li><span className="under-line">お知らせ</span></li>
                             <li><span className="under-line">このサービスの使い方</span></li>
                             <li><span className="under-line">よくある質問</span></li>
