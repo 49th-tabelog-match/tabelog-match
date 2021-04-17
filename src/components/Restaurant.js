@@ -101,6 +101,14 @@ const Restaurant = () => {
     //いいねの情報を入れるstate(counter.lengthでいいねの数を集計)
     const [counter, setCounter] = useState([]);
 
+    //コメント情報を入れるstate
+    const [comments, setComments] = useState([{
+        user_id: '',
+        title: '',
+        content: '',
+        time: null
+    }]);
+
     //コメントのタイトルと文章をstateに渡す
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -129,7 +137,14 @@ const Restaurant = () => {
                 return doc.data;
             })
             setCounter(goodCount);
-        })
+        });
+        db.collection('rest').doc(id).collection('comments').onSnapshot(snap => {
+            const getComments = snap.docs.map(doc => {
+                return doc.data();
+            })
+            setComments(getComments);
+            console.log(comments);
+        });
         axios.get(`http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&id=${id}&order=4&format=jsonp`, {
             'adapter': jsonpAdapter,
         }).then(res => {
@@ -165,31 +180,43 @@ const Restaurant = () => {
     const handleClick = () => {
         if (good === false) {
             console.log(`${user[0].id},${id}`);
-            db.collection('rest').doc(`${id}`)
-                .collection('good').doc(`${user[0].id}`).set({
+            db.collection('rest').doc(id)
+                .collection('good').doc(user[0].id).set({
                     user_id: user[0].id,
                     time: new Date()
                 });
             db.collection('users').doc(user[0].docId)
-                .collection('good').doc(`${id}`).set({
+                .collection('good').doc(id).set({
                     rest_id: id,
                     time: new Date()
                 })
             setGood(true);
         } else {
+            db.collection('rest').doc(id)
+                .collection('good').doc(user[0].id).delete().then(() => {
+                    console.log('Deleted!');
+                }).catch((error) => {
+                    console.log(error);
+                });
+            db.collection('users').doc(user[0].docId)
+                .collection('good').doc(id).delete().then(() => {
+                    console.log('Deleted!');
+                }).catch((error) => {
+                    console.log(error);
+                });
             setGood(false);
         }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        db.collection('rest').doc(`${id}`).collection('comments').doc(`${user[0].id}`).set({
+        db.collection('rest').doc(id).collection('comments').doc(user[0].id).set({
             title: title,
             content: content,
             time: new Date(),
             user_id: user[0].id
         });
-        db.collection('users').doc(`${user[0].docID}`).collection('comments').doc(`${id}`).set({
+        db.collection('users').doc(user[0].docID).collection('comments').doc(id).set({
             title: title,
             content: content,
             time: new Date(),
@@ -239,6 +266,14 @@ const Restaurant = () => {
                     <Button type='submit' style={{ width: '10%', margin: '5px auto', fontSize: '20px', color: 'white', backgroundColor: 'blue', textAlign: 'center' }}>送信</Button>
                 </CommentForm>
             </CommentSection>
+            {/* {
+                comments ?
+                    comments.map(comment => {
+                        <div>
+                            <h1>{comment.title}</h1>
+                        </div>
+                    }) : <p>Loading...</p>
+            } */}
         </>
     )
 }
