@@ -281,7 +281,7 @@ const OtherUserInfo = memo(() => {
                     />
                 </div>
 
-                <div className='user-info-wrap'>
+                {/* <div className='user-info-wrap'>
                     <h2 className='user-info-title'>行ったお店のコメント</h2>
                     <p className="user-info-desc">この人がコメントをしたお店です</p>
                     <FavoriteShopComment
@@ -298,7 +298,7 @@ const OtherUserInfo = memo(() => {
                         goodCount2={commentShop2Count && commentShop2Count}
                         goodCount3={commentShop3Count && commentShop3Count}
                     />
-                </div>
+                </div> */}
 
             </div>
 
