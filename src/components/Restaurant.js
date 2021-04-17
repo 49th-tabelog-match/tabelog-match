@@ -120,6 +120,8 @@ const Restaurant = () => {
     const { authUser } = useContext(AuthContext);
     const email = authUser && authUser.email;
 
+    const disabled = authUser ? false : true;
+
     useEffect(() => {
         db.collection('users').where('email', '==', email)
             .onSnapshot(snapshot => {
@@ -145,7 +147,7 @@ const Restaurant = () => {
         //     setComments(getComments);
         //     console.log(comments);
         // });
-        axios.get(`http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=17f7928912557ff8&id=${id}&order=4&format=jsonp`, {
+        axios.get(`http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${process.env.REACT_APP_HOTPEPPER_API_KEY}&id=${id}&order=4&format=jsonp`, {
             'adapter': jsonpAdapter,
         }).then(res => {
             setShopResult(res.data.results.shop);
@@ -169,7 +171,7 @@ const Restaurant = () => {
 
     const [place, setPlace] = useState(center);
 
-    Geocode.setApiKey("AIzaSyCRGWITzHnk-iquHDOpWpKu1lNmVoMWSKY");
+    Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
     Geocode.setLanguage('ja');
     Geocode.setRegion('ja');
 
@@ -240,7 +242,7 @@ const Restaurant = () => {
                         <InfoList>平均予算　<Span>{shopResult[0].budget.name}</Span></InfoList>
                         <InfoList>行きてえ　<Span>{counter.length}</Span></InfoList>
                     </ul>
-                    <GoodButton onClick={handleClick}>
+                    <GoodButton onClick={handleClick} disabled={disabled}>
                         {
                             good ?
                                 <GoodButtonParagraph>行きてえ済</GoodButtonParagraph> : <GoodButtonParagraph>行きてえ</GoodButtonParagraph>
@@ -251,7 +253,7 @@ const Restaurant = () => {
 
             <Location>
                 <h1 style={{ fontWeight: 'bold' }}>お店の場所</h1>
-                <LoadScript googleMapsApiKey='AIzaSyCRGWITzHnk-iquHDOpWpKu1lNmVoMWSKY'>
+                <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
                     <GoogleMap mapContainerStyle={MapStyle} center={place} zoom={17}>
                         <Marker position={place}></Marker>
                     </GoogleMap>
