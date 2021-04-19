@@ -326,6 +326,7 @@ const UserInfo = memo(() => {
                     <h2 className='user-info-title'>またいきてぇお店</h2>
                     <p className="user-info-desc">この人がまたいきてぇをしたお店です</p>
                     <FavoriteShop
+                        docId={users[0] && users[0].docId}
                         shopImage1={goodShop1[0] && goodShop1[0].photo.pc.m}
                         shopImage2={goodShop2[0] && goodShop2[0].photo.pc.m}
                         shopImage3={goodShop3[0] && goodShop3[0].photo.pc.m}

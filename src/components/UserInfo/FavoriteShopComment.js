@@ -6,7 +6,20 @@ import { useHistory } from 'react-router-dom';
 
 
 
-const FavoriteShopComment = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shopName2, shopName3, shopId1, shopId2, shopId3, goodCount1, goodCount2, goodCount3 }) => {
+const FavoriteShopComment = memo(({
+    shopImage1,
+    shopImage2,
+    shopImage3,
+    shopName1,
+    shopName2,
+    shopName3,
+    shopId1,
+    shopId2,
+    shopId3,
+    goodCount1,
+    goodCount2,
+    goodCount3
+}) => {
     const settings = {
         dots: true,
         infinite: true,
