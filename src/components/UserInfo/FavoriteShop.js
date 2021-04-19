@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -49,8 +49,10 @@ const FavoriteShop = memo(({
     goodCount1,
     goodCount2,
     goodCount3,
-    docId
+    docId,
+    paramsId
 }) => {
+
     const settings = {
         dots: true,
         infinite: true,
@@ -119,11 +121,11 @@ const FavoriteShop = memo(({
                 variant='contained'
                 color='secondary'
                 className={classes.button}
-                onClick={() => history.push(`/favoriteshop/${docId}`)}
+                onClick={() => history.push(`/favoriteshop/${docId ? docId : paramsId}`)}
 
             >
                 またいきてぇリスト
-                </Button>
+            </Button>
 
             <div className='favorite-shop favorite-shop-sp' >
                 <div className='favorite-shop-contents'>
