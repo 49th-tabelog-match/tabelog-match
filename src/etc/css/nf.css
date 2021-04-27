@@ -102,13 +102,7 @@
 }
 
 .main-container {
-  width: 85%;
   margin: auto;
-}
-@media screen and (max-width: 600px) {
-  .main-container {
-    width: 90%;
-  }
 }
 
 .main-image {
@@ -363,6 +357,37 @@
   color: orange;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.shop-log-wrap {
+  margin: auto;
+  max-width: 500px;
+}
+
+.shop-log-table {
+  text-align: left;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid;
+}
+
+.shop-log-th {
+  padding: 10px 0 10px 5px;
+  font-weight: bold;
+  border: 1px solid;
+}
+
+.shop-log-td {
+  padding: 10px 10px 10px 5px;
+  border: 1px solid;
+}
+
+.shop-log-link {
+  color: #0000EE;
+  cursor: pointer;
+}
+.shop-log-link:hover {
+  opacity: .7;
 }
 
 /*# sourceMappingURL=nf.css.map */

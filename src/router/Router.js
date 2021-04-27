@@ -9,6 +9,7 @@ import Header from '../components/Header';
 import Login from '../components/Login';
 import Main from '../components/Main';
 import Restaurant from '../components/Restaurant';
+import FavoriteShopLog from '../components/UserInfo/FavoriteShopLog';
 import { searchRoutes } from './searchRoutes';
 import { signupRoutes } from './signupRoutes';
 import { userInfoRoutes } from './userInfoRoutes';
@@ -31,6 +32,10 @@ const Router = () => {
 
                 <Route exact path='/login'>
                     <Login />
+                </Route>
+
+                <Route path='/favoriteshop/:id'>
+                    <FavoriteShopLog />
                 </Route>
 
                 <Route path='/signup' render={({ match: { url } }) => (

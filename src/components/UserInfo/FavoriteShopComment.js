@@ -3,10 +3,57 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useHistory } from 'react-router-dom';
+// import { makeStyles } from '@material-ui/core';
+
+
+// const useStyles = makeStyles({
+//     button: {
+//         marginBottom: '10px',
+//         display: 'block',
+//         width: '100%',
+//         backgroundColor: '#F50357',
+//         borderRadius: '0',
+//         '&:hover': {
+//             backgroundColor: '#F50357',
+//             opacity: .7,
+
+//         },
+//         '@media screen and (max-width: 600px)': {
+//             display: 'none'
+//         }
+//     },
+//     button_sp: {
+//         display: 'block',
+//         marginBottom: '10px',
+//         width: '100%',
+//         borderRadius: '0',
+//         '&:hover': {
+//             backgroundColor: '#F50357',
+//             opacity: .7,
+//         },
+//         '@media screen and (min-width: 601px)': {
+//             display: 'none'
+//         }
+//     }
+// })
 
 
 
-const FavoriteShopComment = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shopName2, shopName3, shopId1, shopId2, shopId3, goodCount1, goodCount2, goodCount3 }) => {
+const FavoriteShopComment = memo(({
+    shopImage1,
+    shopImage2,
+    shopImage3,
+    shopName1,
+    shopName2,
+    shopName3,
+    shopId1,
+    shopId2,
+    shopId3,
+    goodCount1,
+    goodCount2,
+    goodCount3
+}) => {
+
     const settings = {
         dots: true,
         infinite: true,
@@ -18,6 +65,9 @@ const FavoriteShopComment = memo(({ shopImage1, shopImage2, shopImage3, shopName
     };
 
     const history = useHistory()
+
+    // const classes = useStyles();
+
     return (
         <>
             <div className='favorite-shop favorite-shop-pc'>

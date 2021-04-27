@@ -3,10 +3,56 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useHistory } from 'react-router-dom';
+import { Button, makeStyles } from '@material-ui/core';
 
+const useStyles = makeStyles({
+    button: {
+        marginBottom: '10px',
+        display: 'block',
+        width: '100%',
+        backgroundColor: '#F50357',
+        borderRadius: '0',
+        '&:hover': {
+            backgroundColor: '#F50357',
+            opacity: .7,
 
+        },
+        '@media screen and (max-width: 600px)': {
+            display: 'none'
+        }
+    },
+    button_sp: {
+        display: 'block',
+        marginBottom: '10px',
+        width: '100%',
+        borderRadius: '0',
+        '&:hover': {
+            backgroundColor: '#F50357',
+            opacity: .7,
+        },
+        '@media screen and (min-width: 601px)': {
+            display: 'none'
+        }
+    }
+})
 
-const FavoriteShop = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shopName2, shopName3, shopId1, shopId2, shopId3, goodCount1, goodCount2, goodCount3 }) => {
+const FavoriteShop = memo(({
+    shopImage1,
+    shopImage2,
+    shopImage3,
+    shopName1,
+    shopName2,
+    shopName3,
+    shopId1,
+    shopId2,
+    shopId3,
+    goodCount1,
+    goodCount2,
+    goodCount3,
+    docId,
+    paramsId
+}) => {
+
     const settings = {
         dots: true,
         infinite: true,
@@ -18,6 +64,9 @@ const FavoriteShop = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shop
     };
 
     const history = useHistory()
+
+    const classes = useStyles();
+
     return (
         <>
             <div className='favorite-shop favorite-shop-pc'>
@@ -68,6 +117,15 @@ const FavoriteShop = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shop
                     </div>
                 </div>
             </div>
+            <Button
+                variant='contained'
+                color='secondary'
+                className={classes.button}
+                onClick={() => history.push(`/favoriteshop/${docId ? docId : paramsId}`)}
+
+            >
+                またいきてぇリスト
+            </Button>
 
             <div className='favorite-shop favorite-shop-sp' >
                 <div className='favorite-shop-contents'>
@@ -125,6 +183,15 @@ const FavoriteShop = memo(({ shopImage1, shopImage2, shopImage3, shopName1, shop
                     </Slider>
                 </div>
             </div >
+            <Button
+                variant='contained'
+                color='secondary'
+                className={classes.button_sp}
+
+                onClick={() => history.push(`/favoriteshop/${docId}`)}
+            >
+                またいきてえリスト
+            </Button>
         </>
 
 

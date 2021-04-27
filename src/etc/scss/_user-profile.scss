@@ -199,3 +199,38 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.shop-log-wrap {
+    margin: auto;
+    max-width: 500px;
+}
+
+.shop-log-table {
+    text-align: left;
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid;
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%,-50%);
+    // margin: auto;
+}
+
+.shop-log-th {
+    padding: 10px 0 10px 5px;
+    font-weight: bold;
+    border: 1px solid;
+}
+
+.shop-log-td {
+    padding: 10px 10px 10px 5px;
+    border:1px solid;
+}
+
+.shop-log-link {
+    color:#0000EE;
+    cursor: pointer;
+    &:hover {
+        opacity: .7;
+    }
+}

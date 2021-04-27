@@ -278,6 +278,7 @@ const OtherUserInfo = memo(() => {
                         goodCount1={goodShop1Count && goodShop1Count}
                         goodCount2={goodShop2Count && goodShop2Count}
                         goodCount3={goodShop3Count && goodShop3Count}
+                        paramsId={id}
                     />
                 </div>
 
